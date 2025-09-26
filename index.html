@@ -10,7 +10,147 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         /* Custom Styles for the page */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            color: #E2E8F0; /* Light gray text for better readability on black */
+            overflow-x: hidden;
+            cursor: none; /* Hide the default cursor */
+        }
+
+        /* Liquid Glass Effect for Navbar */
+        .glass-nav {
+            background: rgba(28, 28, 30, 0.7);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        /* Custom Cursor */
+        .cursor-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #A78BFA; /* Violet */
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.2s, height 0.2s;
+        }
+
+        .cursor-outline {
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(167, 139, 250, 0.5); /* Violet with transparency */
+            border-radius: 50%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+            z-index: 9999;
+            transition: all 0.2s ease-out;
+        }
         
+        /* Interactive element hover effect on cursor */
+        body:has(a:hover, button:hover, .card:hover) .cursor-outline {
+             transform: translate(-50%, -50%) scale(1.5);
+             background-color: rgba(167, 139, 250, 0.1);
+        }
+        body:has(a:hover, button:hover, .card:hover) .cursor-dot {
+             transform: translate(-50%, -50%) scale(0.5);
+        }
+
+        /* Gradient Text */
+        .gradient-text {
+            background: linear-gradient(90deg, #8B5CF6, #34D399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+        
+        /* Hero section background gradient */
+        .hero-bg {
+            background-image: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%),
+                              radial-gradient(circle at 90% 80%, rgba(52, 211, 153, 0.1) 0%, transparent 50%);
+        }
+
+        /* Card Styles */
+        .card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(167, 139, 250, 0.1), transparent 40%);
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+        
+        .card:hover:before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(167, 139, 250, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        /* Form input style */
+        .form-input {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+        
+        .form-input:focus {
+            background-color: rgba(255, 255, 255, 0.08);
+            border-color: #A78BFA;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.3);
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-in-out forwards;
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+            opacity: 0; /* Start hidden */
+        }
+        
+        /* Staggered animation delays */
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+        .delay-400 { animation-delay: 0.4s; }
+        .delay-500 { animation-delay: 0.5s; }
+    </style>
 </head>
 <body class="antialiased">
     <!-- Custom Cursor Elements -->
@@ -239,8 +379,6 @@
     </script>
 </body>
 </html>
-
-
 
 
 
