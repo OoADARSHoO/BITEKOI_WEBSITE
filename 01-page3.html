@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everlastimer - by Bitekoi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font for the page body (from original page) -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font for the navigation bar (from original page) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            /* Changed to white as requested */
+            background-color: #000000;
+            color: white; 
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom Cursor (from 01-page2.html) */
+        .cursor-dot {
+            width: 8px; height: 8px; background-color: #9ca3af; border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 10000;
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid #6b7280; border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 10000; transition: all 0.2s ease-out;
+        }
+        body:has(a:hover, button:hover) .cursor-outline {
+             transform: translate(-50%, -50%) scale(1.5); background-color: rgba(156, 163, 175, 0.1);
+        }
+        body:has(a:hover, button:hover) .cursor-dot {
+             transform: translate(-50%, -50%) scale(0.5);
+        }
+
+        /* Glass Navigation (from 01-page2.html) */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: url(#frosted);
+            backdrop-filter: url(#frosted);
+            font-family: 'Inter', sans-serif; 
+        }
+
+        /* Animations (from 01-page2.html) */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+        .delay-100 { animation-delay: 0.1s; } .delay-200 { animation-delay: 0.2s; } .delay-300 { animation-delay: 0.3s; } .delay-400 { animation-delay: 0.4s; } .delay-500 { animation-delay: 0.5s; }
+
+        /* Everlastimer Section Styling */
+        #everlastimer-page {
+            position: relative;
+            /* Applied new gradient background as requested */
+            background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(9, 9, 121, 1) 35%, rgba(205, 18, 222, 1) 100%);
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+            /* Removed grayscale filter */
+        }
+
+        /* NEW: Sakura Leaves Styling */
+        #sakura-container {
+            position: fixed; /* Changed from absolute to fixed */
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .sakura-leaf {
+            position: absolute;
+            will-change: transform;
+            font-size: 20px;
+            /* Set opacity in JS */
+        }
+
+        /* Animation for falling */
+        @keyframes fall {
+            from { /* 0% */
+                transform: translateY(-100px);
+                opacity: 1;
+            }
+            /* Fall to the bottom */
+            90% { 
+                transform: translateY(98vh); /* Adjusted from 100vh to 98vh */
+                opacity: 1;
+            }
+            /* Bounce up slightly */
+            95% {
+                transform: translateY(95vh); /* Adjusted from 97vh to 95vh */
+                opacity: 1;
+            }
+            /* Settle back down and fade out */
+            to { /* 100% */
+                transform: translateY(98vh); /* Adjusted from 100vh to 98vh */
+                opacity: 0;
+            }
+        }
+        /* Animation for swaying */
+        @keyframes sway {
+            from { margin-left: -20px; /* transform: rotate(-15deg); -- REMOVED to prevent animation conflict */ }
+            to { margin-left: 20px; /* transform: rotate(15deg); -- REMOVED to prevent animation conflict */ }
+        }
+        
+        .everlastimer-content {
+            position: relative;
+            z-index: 2;
+            /* Add padding to account for the fixed header */
+            padding-top: 80px; 
+        }
+
+        /* Feature item styling (from 01-page2.html) */
+        .feature-item {
+            /* Kept the slight transparent white, looks good on the gradient */
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @media (hover: none), (pointer: coarse) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- SVG Filter Definition (from 01-page2.html) -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none">
+      <defs>
+        <filter id="frosted">
+          <feTurbulence type="fractalNoise" baseFrequency="0.01 0.04" numOctaves="2" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" />
+        </filter>
+      </defs>
+    </svg>
+
+    <!-- Custom Cursor (from 01-page2.html) -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Header (Copied from 01-page2.html) -->
+    <header id="header" class="glass-nav fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <nav class="grid grid-cols-2 md:grid-cols-3 items-center">
+                
+                <!-- Item 1: Logo (Left) -->
+                <div>
+                    <a href="index.html" class="text-xl font-bold text-white">Bitekoi</a>
+                </div>
+
+                <!-- Item 2: Links (Center) -->
+                <ul class="hidden md:flex items-center justify-center space-x-8">
+                    <li><a href="index.html" class="text-slate-300 hover:text-white transition-colors duration-300">Home</a></li>
+                    <li><a href="index.html#labs" class="text-slate-300 hover:text-white transition-colors duration-300">Labs</a></li>
+                    <li><a href="index.html#contact" class="text-slate-300 hover:text-white transition-colors duration-300">Contact</a></li>
+                </ul>
+                
+                <!-- Item 3: New Logo Placeholder (Right) / Mobile Button -->
+                <div class="flex justify-end items-center">
+                    <a href="#" class="hidden md:flex w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-xs text-slate-400" title="Logo Placeholder">
+                        LOGO
+                    </a>
+                    <button id="mobile-menu-button" class="md:hidden text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+                </div>
+            </nav>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="01-main.html" class="block py-2 text-slate-300 hover:text-white">Home</a>
+            <a href="01-main.html#labs" class="block py-2 text-slate-300 hover:text-white">Labs</a>
+            <a href="01-main.html#contact" class="block py-2 text-slate-300 hover:text-white">Contact</a>
+        </div>
+    </header>
+    <!-- END HEADER -->
+
+    <main>
+        <!-- Main content section -->
+        <section id="everlastimer-page" class="min-h-screen flex items-center py-20">
+            <!-- Container for falling sakura -->
+            <div id="sakura-container">
+                <!-- Sakura leaves will be generated here by script -->
+            </div>
+            
+            <!-- Content wrapper -->
+            <div class="container mx-auto px-6 everlastimer-content">
+                <div class="max-w-4xl mx-auto text-center">
+                    
+                    <!-- New App Logo Placeholder -->
+                    <img src="https://placehold.co/100x100/c084fc/FFFFFF?text=ET" alt="Everlastimer Logo" class="w-24 h-24 mx-auto mb-6 fade-in-up rounded-full" onerror="this.onerror=null; this.src='https://placehold.co/100x100/000000/FFFFFF?text=ET';">
+                    
+                    <!-- New App Title -->
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 fade-in-up delay-100">Everlastimer</h1>
+                    <!-- New App Subtitle -->
+                    <p class="text-xl text-slate-100 mb-8 fade-in-up delay-200">A Minimal Year-End Progress Tracker ⏳</p>
+
+                    <!-- New App Description -->
+                    <p class="text-lg text-slate-200 max-w-2xl mx-auto mb-12 fade-in-up delay-300">
+                        EVERLASTIMER is a clean, minimal floating widget for your desktop that helps you track exactly how much of the year is left — down to months, weeks, days, hours, and even minutes. It's designed to boost self-awareness, inspire self-improvement, and keep your yearly goals visible at all times.
+                    </p>
+
+                    <!-- New App Features -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-12">
+                        <div class="feature-item rounded-lg p-6 text-left fade-in-up delay-400">
+                            <h3 class="text-xl font-semibold text-white mb-2">✔ Minimal Floating Widget</h3>
+                            <p class="text-slate-200">A clean, distraction-free floating widget for your desktop.</p>
+                        </div>
+                        <div class="feature-item rounded-lg p-6 text-left fade-in-up delay-500">
+                            <h3 class="text-xl font-semibold text-white mb-2">✔ Detailed Year Tracking</h3>
+                            <p class="text-slate-200">Tracks the year remaining by months, weeks, days, hours, and even minutes.</p>
+                        </div>
+                    </div>
+                     <p class="text-md text-slate-300 mb-10 fade-in-up delay-500">Built with care by Bitekoi Labs.</p>
+
+                    <!-- Download Button (from 01-page2.html) -->
+                    <div class="fade-in-up delay-500">
+                        <a href="#" class="bg-white text-black font-bold px-12 py-4 rounded-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 inline-block">
+                            Download Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Custom cursor script (from 01-page2.html)
+        const cursorDot = document.querySelector(".cursor-dot");
+        const cursorOutline = document.querySelector(".cursor-outline");
+        window.addEventListener("mousemove", function(e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+
+        // Mobile menu logic (from 01-page2.html)
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        
+        if(mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+
+            mobileMenu.addEventListener("click", (e) => {
+                if (e.target.tagName === "A") {
+                    mobileMenu.classList.add("hidden");
+                }
+            });
+        }
+        
+        // NEW: Falling Sakura Leaves script
+        const sakuraContainer = document.getElementById('sakura-container');
+        
+        if (sakuraContainer) {
+            const numberOfLeaves = 40;
+
+            const resetLeafAnimation = (leafEl) => {
+                leafEl.innerText = '🌸';
+                leafEl.style.left = `${Math.random() * 100}vw`;
+                leafEl.style.fontSize = `${Math.random() * 15 + 10}px`; // 10px to 25px
+                leafEl.style.color = `rgba(255, 255, 255, ${Math.random() * 0.5 + 0.3})`; // 0.3 to 0.8 opacity
+
+                // Reset animations
+                leafEl.style.animation = 'none';
+                void leafEl.offsetWidth; // Trigger reflow
+
+                // Assign new random durations
+                const fallDuration = Math.random() * 10 + 10; // 10-20 seconds
+                const swayDuration = Math.random() * 3 + 2; // 2-5 seconds
+                
+                // Apply multiple animations
+                // FIXED: Added 'forwards' to the 'fall' animation
+                // This ensures the leaf stays at the bottom when the animation ends,
+                // just before it's reset.
+                leafEl.style.animation = `
+                    fall ${fallDuration}s linear forwards, 
+                    sway ${swayDuration}s ease-in-out infinite alternate
+                `;
+            };
+
+            for (let i = 0; i < numberOfLeaves; i++) {
+                const leafEl = document.createElement('p');
+                leafEl.classList.add('sakura-leaf');
+                sakuraContainer.appendChild(leafEl);
+
+                // Initialize each leaf with a random delay
+                setTimeout(() => {
+                    resetLeafAnimation(leafEl);
+                    // When the fall animation ends, reset it.
+                    leafEl.addEventListener('animationend', (e) => {
+                        // Only reset if the 'fall' animation ended
+                        if (e.animationName === 'fall') {
+                            resetLeafAnimation(leafEl);
+                        }
+                    });
+                }, Math.random() * 15000); // Stagger initial start times over 15 seconds
+            }
+        }
+    });
+    </script>
+
+</body>
+</html>
+
+
+
+
+
+

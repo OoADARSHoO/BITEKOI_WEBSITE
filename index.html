@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display.swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -15,7 +15,11 @@
             color: #E2E8F0;
             overflow-x: hidden;
             cursor: none;
-        }
+            /* --- NEW: Added for page transition --- */
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            /* --- End New --- */
+        } 
 
         /* UPDATED: Frosted Glass Effect for Navbar using SVG Filter */
         .glass-nav {
@@ -40,8 +44,13 @@
              transform: translate(-50%, -50%) scale(0.5);
         }
         .gradient-text {
-            background: linear-gradient(90deg, #8B5CF6, #34D399); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-fill-color: transparent;
+            background: linear-gradient(90deg, #8B5CF6, #34D399);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text; /* Optional fallback for Firefox (won’t fully work yet) */
+            color: transparent; /* Fallback for unsupported browsers */
         }
+
         .hero-bg {
             background-image: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(52, 211, 153, 0.1) 0%, transparent 50%);
         }
@@ -79,6 +88,7 @@
     </style>
 </head>
 <body class="antialiased">
+    <!-- SVG Filter Definition -->
     <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none">
       <defs>
         <filter id="frosted">
@@ -88,9 +98,11 @@
       </defs>
     </svg>
 
+    <!-- Custom Cursor -->
     <div class="cursor-dot"></div>
     <div class="cursor-outline"></div>
 
+    <!-- Header & Navigation -->
     <header id="header" class="glass-nav fixed top-0 left-0 right-0 z-50">
         <div class="container mx-auto px-6 py-4">
             <nav class="flex justify-between items-center">
@@ -104,6 +116,7 @@
                 <button id="mobile-menu-button" class="md:hidden text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
             </nav>
         </div>
+        <!-- Mobile Menu -->
         <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
             <a href="#home" class="block py-2 text-slate-300 hover:text-white">Home</a>
             <a href="#labs" class="block py-2 text-slate-300 hover:text-white">Labs</a>
@@ -112,6 +125,7 @@
     </header>
 
     <main>
+        <!-- Hero Section -->
         <section id="home" class="min-h-screen flex items-center justify-center hero-bg pt-20">
             <div class="container mx-auto px-6 text-center">
                  <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 fade-in-up">Crafting Digital Tools for <span class="gradient-text">Self-Growth</span></h1>
@@ -122,19 +136,47 @@
                 </div>
             </div>
         </section>
+
+        <!-- Labs Section (MODIFIED) -->
         <section id="labs" class="py-20 md:py-32">
              <div class="container mx-auto px-6">
                 <div class="text-center mb-16">
                     <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 fade-in-up">My Laboratory</h2>
                     <p class="text-lg text-slate-400 max-w-2xl mx-auto fade-in-up delay-200">A showcase of projects and experiments. Each one is a step towards creating more meaningful technology.</p>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <div class="card rounded-2xl p-8 fade-in-up delay-100"><div class="mb-4"><svg class="w-12 h-12 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></div><h3 class="text-2xl font-bold text-white mb-3">Habit Tracker Pro</h3><p class="text-slate-400 mb-6">A minimalist app to build and maintain positive daily habits with insightful analytics.</p><a href="#" class="font-semibold text-violet-400 hover:text-violet-300 transition-colors">Learn More &rarr;</a></div>
-                    <div class="card rounded-2xl p-8 fade-in-up delay-200"><div class="mb-4"><svg class="w-12 h-12 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg></div><h3 class="text-2xl font-bold text-white mb-3">Mindful Moments</h3><p class="text-slate-400 mb-6">Guided meditation and breathing exercises to help you find calm and focus in a busy world.</p><a href="#" class="font-semibold text-violet-400 hover:text-violet-300 transition-colors">Download App &rarr;</a></div>
-                    <div class="card rounded-2xl p-8 fade-in-up delay-300"><div class="mb-4"><svg class="w-12 h-12 text-violet-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg></div><h3 class="text-2xl font-bold text-white mb-3">Digital Journal</h3><p class="text-slate-400 mb-6">A secure and private space to reflect, organize your thoughts, and track your personal growth journey.</p><a href="#" class="font-semibold text-violet-400 hover:text-violet-300 transition-colors">Explore Project &rarr;</a></div>
+                <!-- Updated Grid: Changed to 2-column grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- EchoRune Card -->
+                    <a href="01-page2.html" class="card rounded-2xl p-8 fade-in-up delay-100 block">
+                        <div class="mb-4">
+                            <!-- Using a different icon for EchoRune -->
+                            <svg class="w-12 h-12 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 9.5H12"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">EchoRune</h3>
+                        <p class="text-slate-400 mb-6">An experimental interface for exploring digital consciousness and memory.</p>
+                        <span class="font-semibold text-violet-400 hover:text-violet-300 transition-colors">Launch Project &rarr;</span>
+                    </a>
+
+                    <!-- NEW Everlastimer Card -->
+                    <a href="01-page3.html" class="card rounded-2xl p-8 fade-in-up delay-200 block">
+                        <div class="mb-4">
+                            <!-- Icon for Everlastimer (clock) -->
+                            <svg class="w-12 h-12 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Everlastimer</h3>
+                        <p class="text-slate-400 mb-6">A minimal desktop widget to track year-end progress.</p>
+                        <span class="font-semibold text-violet-400 hover:text-violet-300 transition-colors">Launch Project &rarr;</span>
+                    </a>
                 </div>
             </div>
         </section>
+
+        <!-- Contact Section -->
         <section id="contact" class="py-20 md:py-32">
             <div class="container mx-auto px-6">
                  <div class="text-center mb-16"><h2 class="text-3xl md:text-5xl font-bold text-white mb-4 fade-in-up">Let's Connect</h2><p class="text-lg text-slate-400 max-w-2xl mx-auto fade-in-up delay-200">Have a question, an idea for a project, or just want to say hello? Drop me a line.</p></div>
@@ -146,6 +188,7 @@
         </section>
     </main>
 
+    <!-- Footer -->
     <footer class="border-t border-slate-800 py-8">
         <div class="container mx-auto px-6 text-center text-slate-500">
             <p>&copy; 2024 Bitekoi. All rights reserved.</p>
@@ -153,8 +196,112 @@
         </div>
     </footer>
 
+    <!-- JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded',function(){const e=document.querySelector(".cursor-dot"),t=document.querySelector(".cursor-outline");window.addEventListener("mousemove",function(s){const o=s.clientX,n=s.clientY;e.style.left=`${o}px`,e.style.top=`${n}px`,t.animate({left:`${o}px`,top:`${n}px`},{duration:500,fill:"forwards"})});const s=document.querySelectorAll(".card");s.forEach(e=>{e.addEventListener("mousemove",t=>{const s=e.getBoundingClientRect(),o=t.clientX-s.left,n=t.clientY-s.top;e.style.setProperty("--x",`${o}px`),e.style.setProperty("--y",`${n}px`)})});const o=document.getElementById("mobile-menu-button"),n=document.getElementById("mobile-menu");o.addEventListener("click",()=>{n.classList.toggle("hidden")}),n.addEventListener("click",e=>{"A"===e.target.tagName&&n.classList.add("hidden")}),document.querySelectorAll('a[href^="#"]').forEach(e=>{e.addEventListener("click",function(t){t.preventDefault(),document.querySelector(this.getAttribute("href")).scrollIntoView({behavior:"smooth"})})});const i=document.querySelectorAll(".fade-in-up"),a=new IntersectionObserver((e,t)=>{e.forEach(e=>{e.isIntersecting&&(e.target.classList.add("visible"),t.unobserve(e.target))})},{threshold:.1});i.forEach(e=>{a.observe(e)});const l=document.getElementById("contact-form"),c=document.getElementById("form-status");l.addEventListener("submit",function(e){e.preventDefault(),c.innerHTML='<p class="text-green-400">Thank you! Your message has been sent.</p>',l.reset(),setTimeout(()=>{c.innerHTML=""},5000)})});
+        document.addEventListener('DOMContentLoaded', function() {
+            
+            // --- NEW: Page Fade-in ---
+            document.body.style.opacity = 1;
+
+            // --- NEW: Page Fade-out on link click ---
+            // Select all links that DO NOT start with '#'
+            const pageLinks = document.querySelectorAll('a:not([href^="#"])');
+            pageLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    
+                    // Don't fade for new tabs
+                    if (this.target === '_blank' || (href && href.startsWith('mailto:'))) {
+                        return;
+                    }
+
+                    // Prevent default navigation
+                    e.preventDefault();
+                    
+                    // Start fade-out
+                    document.body.style.opacity = 0;
+                    
+                    // Go to new page after transition
+                    setTimeout(() => {
+                        if (href) {
+                            window.location.href = href;
+                        }
+                    }, 500); // Match CSS transition duration
+                });
+            });
+
+            // --- Existing JS (de-minified for clarity) ---
+            const cursorDot = document.querySelector(".cursor-dot");
+            const cursorOutline = document.querySelector(".cursor-outline");
+            
+            window.addEventListener("mousemove", function(s) {
+                const o = s.clientX,
+                    n = s.clientY;
+                cursorDot.style.left = `${o}px`;
+                cursorDot.style.top = `${n}px`;
+                cursorOutline.animate({ left: `${o}px`, top: `${n}px` }, { duration: 500, fill: "forwards" });
+            });
+
+            const cards = document.querySelectorAll(".card");
+            cards.forEach(e => {
+                e.addEventListener("mousemove", t => {
+                    const s = e.getBoundingClientRect(),
+                        o = t.clientX - s.left,
+                        n = t.clientY - s.top;
+                    e.style.setProperty("--x", `${o}px`);
+                    e.style.setProperty("--y", `${n}px`);
+                });
+            });
+
+            const mobileMenuButton = document.getElementById("mobile-menu-button");
+            const mobileMenu = document.getElementById("mobile-menu");
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener("click", () => {
+                    mobileMenu.classList.toggle("hidden");
+                });
+                mobileMenu.addEventListener("click", e => {
+                    if (e.target.tagName === "A") {
+                        mobileMenu.classList.add("hidden");
+                    }
+                });
+            }
+
+            // Smooth scroll for hash links
+            document.querySelectorAll('a[href^="#"]').forEach(e => {
+                e.addEventListener("click", function(t) {
+                    t.preventDefault();
+                    const targetEl = document.querySelector(this.getAttribute("href"));
+                    if (targetEl) {
+                        targetEl.scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            });
+
+            const fadeUpElements = document.querySelectorAll(".fade-in-up");
+            const observer = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add("visible");
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            fadeUpElements.forEach(e => {
+                observer.observe(e);
+            });
+
+            const contactForm = document.getElementById("contact-form");
+            const formStatus = document.getElementById("form-status");
+            if (contactForm && formStatus) {
+                contactForm.addEventListener("submit", function(e) {
+                    e.preventDefault();
+                    formStatus.innerHTML = '<p class="text-green-400">Thank you! Your message has been sent.</p>';
+                    contactForm.reset();
+                    setTimeout(() => { formStatus.innerHTML = "" }, 5000);
+                });
+            }
+        });
     </script>
 </body>
 </html>
+

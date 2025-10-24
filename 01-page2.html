@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EchoRune - by Bitekoi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Font for the page body -->
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Font for the new navigation bar -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Chakra Petch', sans-serif;
+            background-color: #000000;
+            color: #E2E8F0;
+            overflow-x: hidden; /* Corrected from overflow:hidden to allow vertical scroll */
+            cursor: none;
+        }
+
+        /* Custom Cursor (from 01-page2.html) */
+        .cursor-dot {
+            width: 8px; height: 8px; background-color: #9ca3af; border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 10000;
+        }
+        .cursor-outline {
+            width: 40px; height: 40px; border: 2px solid #6b7280; border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 10000; transition: all 0.2s ease-out;
+        }
+        body:has(a:hover, button:hover) .cursor-outline {
+             transform: translate(-50%, -50%) scale(1.5); background-color: rgba(156, 163, 175, 0.1);
+        }
+        body:has(a:hover, button:hover) .cursor-dot {
+             transform: translate(-50%, -50%) scale(0.5);
+        }
+
+        /* --- STYLES ADDED FROM 01-main.html --- */
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
+            -webkit-backdrop-filter: url(#frosted);
+            backdrop-filter: url(#frosted);
+            /* Apply Inter font ONLY to the nav */
+            font-family: 'Inter', sans-serif; 
+        }
+        /* REMOVED gradient-text class as requested */
+        /* .gradient-text { ... } */
+        /* --- END ADDED STYLES --- */
+
+        /* Animations */
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
+        .delay-100 { animation-delay: 0.1s; } .delay-200 { animation-delay: 0.2s; } .delay-300 { animation-delay: 0.3s; } .delay-400 { animation-delay: 0.4s; } .delay-500 { animation-delay: 0.5s; }
+
+        /* EchoRune Section Styling */
+        #echorune-page {
+            position: relative;
+            background-image: linear-gradient(rgba(0,0,0,0.92), rgba(0,0,0,1)), url('https://images.unsplash.com/photo-1533134486753-c833f0ed4866?q=80&w=2070&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            overflow: hidden;
+            filter: grayscale(100%);
+        }
+
+        /* "Digital Rain" Quote Styling */
+        #quotes-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .quote-fall {
+            position: absolute;
+            white-space: nowrap;
+            will-change: transform;
+            /* Removed animation property to control it with JS */
+        }
+
+        /* Updated keyframes to ensure quotes fall completely out of view */
+        @keyframes fall {
+            from { transform: translateY(-300px); }
+            to { transform: translateY(105vh); }
+        }
+        
+        .echorune-content {
+            position: relative;
+            z-index: 2;
+            /* Add padding to account for the fixed header */
+            padding-top: 80px; 
+        }
+
+        .feature-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+        .feature-item:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        @media (hover: none), (pointer: coarse) {
+            body { cursor: auto; }
+            .cursor-dot, .cursor-outline { display: none; }
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- ADDED SVG Filter Definition -->
+    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none">
+      <defs>
+        <filter id="frosted">
+          <feTurbulence type="fractalNoise" baseFrequency="0.01 0.04" numOctaves="2" result="noise" />
+          <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" />
+        </filter>
+      </defs>
+    </svg>
+
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- REPLACED HEADER -->
+    <header id="header" class="glass-nav fixed top-0 left-0 right-0 z-50">
+        <div class="container mx-auto px-6 py-4">
+            <!-- Updated nav layout -->
+            <nav class="grid grid-cols-2 md:grid-cols-3 items-center">
+                
+                <!-- Item 1: Logo (Left) -->
+                <div>
+                    <!-- Removed gradient-text, added text-white -->
+                    <a href="index.html" class="text-xl font-bold text-white">Bitekoi</a>
+                </div>
+
+                <!-- Item 2: Links (Center) -->
+                <ul class="hidden md:flex items-center justify-center space-x-8">
+                    <li><a href="index.html" class="text-slate-300 hover:text-white transition-colors duration-300">Home</a></li>
+                    <li><a href="index.html#labs" class="text-slate-300 hover:text-white transition-colors duration-300">Labs</a></li>
+                    <li><a href="index.html#contact" class="text-slate-300 hover:text-white transition-colors duration-300">Contact</a></li>
+                </ul>
+                
+                <!-- Item 3: New Logo Placeholder (Right) / Mobile Button -->
+                <div class="flex justify-end items-center">
+                    <!-- This is the placeholder for the new logo (desktop only) -->
+                    <a href="#" class="hidden md:flex w-10 h-10 bg-slate-700 rounded-full flex items-center justify-center text-xs text-slate-400" title="Logo Placeholder">
+                        LOGO
+                    </a>
+                    <!-- Mobile Menu Button (mobile only) -->
+                    <button id="mobile-menu-button" class="md:hidden text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
+                </div>
+            </nav>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
+            <a href="index.html" class="block py-2 text-slate-300 hover:text-white">Home</a>
+            <a href="index.html#labs" class="block py-2 text-slate-300 hover:text-white">Labs</a>
+            <a href="index.html" class="block py-2 text-slate-300 hover:text-white">Contact</a>
+        </div>
+    </header>
+    <!-- END REPLACED HEADER -->
+
+    <main>
+        <section id="echorune-page" class="min-h-screen flex items-center py-20">
+            <div id="quotes-container">
+                <!-- Quotes will be generated here by script -->
+            </div>
+            <div class="container mx-auto px-6 echorune-content">
+                <div class="max-w-4xl mx-auto text-center">
+                    <img src="https://i.ibb.co/6yVf1f1/Gemini_Generated_Image_wl2ex1wl2ex1wl2e_Edited.png" alt="EchoRune Logo" class="w-24 h-24 mx-auto mb-6 fade-in-up" onerror="this.onerror=null; this.src='https://placehold.co/100x100/000000/FFFFFF?text=ER';">
+                    
+                    <h1 class="text-4xl md:text-6xl font-bold text-white mb-4 fade-in-up delay-100">EchoRune</h1>
+                    <p class="text-xl text-slate-300 mb-8 fade-in-up delay-200">Let the Echo Guide You. 🔮✨</p>
+
+                    <p class="text-lg text-slate-400 max-w-2xl mx-auto mb-12 fade-in-up delay-300">
+                        EchoRune is your personal pocket companion for reflection, quotes, and inspiration. Whether you're seeking daily motivation or just need a quiet moment to reset — EchoRune is built to guide you.
+                    </p>
+
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-12">
+                        <div class="feature-item rounded-lg p-6 text-left fade-in-up delay-400">
+                            <h3 class="text-xl font-semibold text-white mb-2">✔ Clean, Minimal Design</h3>
+                            <p class="text-slate-400">A soothing, distraction-free experience designed for focus and calm.</p>
+                        </div>
+                        <div class="feature-item rounded-lg p-6 text-left fade-in-up delay-500">
+                            <h3 class="text-xl font-semibold text-white mb-2">✔ Handpicked, Meaningful Quotes</h3>
+                            <p class="text-slate-400">A curated collection of wisdom to inspire and provoke thought.</p>
+                        </div>
+                    </div>
+                     <p class="text-md text-slate-500 mb-10 fade-in-up delay-500">Built with care by Bitekoi Labs.</p>
+
+                    <div class="fade-in-up delay-500">
+                        <a href="#" class="bg-white text-black font-bold px-12 py-4 rounded-lg hover:bg-gray-200 transition-all duration-300 transform hover:scale-105 inline-block">
+                            Download Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Custom cursor script
+        const cursorDot = document.querySelector(".cursor-dot");
+        const cursorOutline = document.querySelector(".cursor-outline");
+        window.addEventListener("mousemove", function(e) {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            cursorOutline.animate({ left: `${posX}px`, top: `${posY}px` }, { duration: 500, fill: "forwards" });
+        });
+
+        // --- ADDED Mobile menu logic ---
+        const mobileMenuButton = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        
+        if(mobileMenuButton && mobileMenu) {
+            mobileMenuButton.addEventListener("click", () => {
+                mobileMenu.classList.toggle("hidden");
+            });
+
+            // Close menu when a link is clicked
+            mobileMenu.addEventListener("click", (e) => {
+                if (e.target.tagName === "A") {
+                    mobileMenu.classList.add("hidden");
+                }
+            });
+        }
+        // --- END Mobile menu logic ---
+        
+        // Reworked "Digital Rain" script for a seamless loop
+        const quotesContainer = document.getElementById('quotes-container');
+        const quotes = [
+            "Move forward or be left behind.", "Fear is a tool, not a weakness.", "Pain reveals truth.",
+            "Question everything.", "The world isn’t fair. Adapt or die.", "Comfort kills progress.",
+            "Care less. Think more.", "Stand alone. Think alone. Win alone.", "To be human is to break.",
+            "Leave or be left.", "We build what we fear most.", "Knowledge is the ultimate weapon.",
+            "Survival isn’t living.", "A broken mind sees the world clearer.", "There are no accidents.",
+            "Become. Not copy.", "This is the Way.", "You are what you build, not what you inherit.",
+            "If it’s easy, question it.", "Denial delays growth.", "Pain is a cure for numbness.",
+            "We destroy what we can’t control.", "Let go to protect.", "The past shapes you, but doesn’t define you."
+        ];
+        
+        if (quotesContainer) {
+            const numberOfQuotes = 30;
+
+            // This function resets a quote's properties and restarts its animation
+            const resetQuoteAnimation = (quoteEl) => {
+                quoteEl.innerText = quotes[Math.floor(Math.random() * quotes.length)];
+                quoteEl.style.left = `${Math.random() * 100}vw`;
+                quoteEl.style.fontSize = `${Math.random() * 10 + 10}px`;
+                quoteEl.style.color = `rgba(255, 255, 255, ${Math.random() * 0.1 + 0.05})`;
+                
+                // Remove the old animation and restart it to apply new duration
+                quoteEl.style.animation = 'none';
+                void quoteEl.offsetWidth; // Trigger reflow
+                quoteEl.style.animation = `fall ${Math.random() * 20 + 15}s linear`;
+            };
+
+            for (let i = 0; i < numberOfQuotes; i++) {
+                const quoteEl = document.createElement('p');
+                quoteEl.classList.add('quote-fall');
+                quotesContainer.appendChild(quoteEl);
+
+                // Initialize each quote with a random delay to prevent stacking on load
+                setTimeout(() => {
+                    resetQuoteAnimation(quoteEl);
+                    // When the animation ends, reset it.
+                    quoteEl.addEventListener('animationend', () => resetQuoteAnimation(quoteEl));
+                }, Math.random() * 20000); // Stagger initial start times over 20 seconds
+            }
+        }
+    });
+    </script>
+
+</body>
+</html>
+
