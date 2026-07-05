@@ -385,6 +385,16 @@ section{ padding:150px 0; position:relative; }
   position:relative;
   overflow:hidden;
 }
+.download-trigger{ position:relative; }
+.download-trigger.is-loading{ pointer-events:none; opacity:.95; }
+.download-trigger.is-disabled{ opacity:.85; }
+.download-spinner{ display:inline-flex; width:16px; height:16px; animation:spin 1s linear infinite; }
+.download-spinner svg{ width:16px; height:16px; }
+.download-status{ min-height:18px; margin-top:8px; font-size:13px; color:#fda4af; }
+.version-pill{ display:inline-flex; align-items:center; gap:8px; margin-top:14px; padding:8px 12px; border:1px solid var(--line); border-radius:999px; background:rgba(255,255,255,0.04); color:var(--ink-dim); font-size:13px; }
+.version-pill .version-label{ color:var(--ink-faint); }
+.version-pill .version-value{ color:var(--ink); font-weight:600; }
+@keyframes spin{ to{ transform:rotate(360deg); } }
 .final-glow{
   position:absolute; left:50%; bottom:-30%; width:900px; height:500px; transform:translateX(-50%);
   background:radial-gradient(ellipse at center, rgba(147,51,234,0.45), transparent 70%);
@@ -531,15 +541,21 @@ footer{ border-top:1px solid var(--line); padding:44px 0 30px; position:relative
         <h1>See your <span class="grad-text">year</span><br>disappear in<br>real time.</h1>
         <p class="lead">Everlastimer turns the passing year into a living visual that sits on your desktop, your phone, and your widgets — so time never quietly slips by unnoticed.</p>
         <div class="hero-ctas">
-          <a href="#download" class="btn btn-primary">
+          <a href="#download" class="btn btn-primary download-trigger" role="button" data-download-label="Download for Windows" data-status-id="downloadStatusHero">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
-            Download for Windows
+            <span class="download-label">Download for Windows</span>
+            <span class="download-spinner" hidden aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg></span>
           </a>
           <a href="#widgets" class="btn btn-ghost">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="6 3 20 12 6 21 6 3"/></svg>
             See it in action
           </a>
         </div>
+        <div id="latestVersionBlock" class="version-pill" hidden>
+          <span class="version-label">Latest Version</span>
+          <span id="latestVersionText" class="version-value">—</span>
+        </div>
+        <div class="download-status" id="downloadStatusHero" aria-live="polite"></div>
         <div class="hero-meta">
           <span>Windows 10+</span>
           <span>Lightweight</span>
@@ -741,11 +757,13 @@ footer{ border-top:1px solid var(--line); padding:44px 0 30px; position:relative
         <div class="download-panel">
           <div class="note">Download Everlastimer for Windows<br>Lightweight. Fast. Always with you.</div>
           <div class="download-row">
-            <a href="#" class="btn btn-primary" onclick="return false;">
+            <a href="#" class="btn btn-primary download-trigger" role="button" data-download-label="Download for Windows" data-status-id="downloadStatusFinal">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 21h8M12 18v3"/></svg>
-              Download for Windows
+              <span class="download-label">Download for Windows</span>
+              <span class="download-spinner" hidden aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-6.2-8.6"/></svg></span>
             </a>
           </div>
+          <div class="download-status" id="downloadStatusFinal" aria-live="polite"></div>
           <div class="download-row" style="margin-top:2px;">
             <span class="soon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>macOS — coming soon</span>
             <span class="soon-btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg>Android — coming soon</span>
@@ -825,6 +843,103 @@ function computeProgress(){
 
 function fmt(n){ return n.toLocaleString('en-US'); }
 
+const DOWNLOAD_API_URL = 'https://api.github.com/repos/OoADARSHoO/EVERLASTIMER/releases/latest';
+
+function setDownloadButtonState(button, isLoading, label) {
+  const labelEl = button.querySelector('.download-label');
+  const spinnerEl = button.querySelector('.download-spinner');
+  const statusEl = document.getElementById(button.dataset.statusId);
+
+  if (isLoading) {
+    button.classList.add('is-loading', 'is-disabled');
+    button.setAttribute('aria-disabled', 'true');
+    button.removeAttribute('href');
+    if (labelEl) labelEl.textContent = 'Downloading...';
+    if (spinnerEl) spinnerEl.hidden = false;
+    if (statusEl) statusEl.textContent = '';
+    return;
+  }
+
+  button.classList.remove('is-loading', 'is-disabled');
+  button.setAttribute('aria-disabled', 'false');
+  button.setAttribute('href', '#download');
+  if (labelEl) labelEl.textContent = label || button.dataset.downloadLabel || 'Download for Windows';
+  if (spinnerEl) spinnerEl.hidden = true;
+}
+
+function setDownloadStatus(button, message) {
+  const statusEl = document.getElementById(button.dataset.statusId);
+  if (statusEl) {
+    statusEl.textContent = message;
+  }
+}
+
+async function fetchLatestRelease() {
+  const response = await fetch(DOWNLOAD_API_URL, {
+    headers: { Accept: 'application/vnd.github+json' }
+  });
+
+  if (!response.ok) {
+    throw new Error('Release request failed');
+  }
+
+  return response.json();
+}
+
+async function loadLatestVersion() {
+  const versionBlock = document.getElementById('latestVersionBlock');
+  const versionText = document.getElementById('latestVersionText');
+
+  if (!versionBlock || !versionText) return;
+
+  try {
+    const release = await fetchLatestRelease();
+    const version = release && release.tag_name ? release.tag_name : '';
+    if (version) {
+      versionText.textContent = version;
+      versionBlock.hidden = false;
+    } else {
+      versionBlock.hidden = true;
+    }
+  } catch (error) {
+    versionBlock.hidden = true;
+  }
+}
+
+async function handleDownloadClick(event) {
+  const button = event.currentTarget;
+
+  if (button.classList.contains('is-loading')) {
+    event.preventDefault();
+    return;
+  }
+
+  event.preventDefault();
+  setDownloadButtonState(button, true);
+
+  try {
+    const release = await fetchLatestRelease();
+    const asset = Array.isArray(release.assets)
+      ? release.assets.find(item => /\.exe$/i.test(item.name || ''))
+      : null;
+
+    if (!asset || !asset.browser_download_url) {
+      throw new Error('No Windows installer found');
+    }
+
+    window.location.href = asset.browser_download_url;
+  } catch (error) {
+    setDownloadButtonState(button, false);
+    setDownloadStatus(button, 'Download unavailable. Please try again.');
+  }
+}
+
+function bindDownloadButtons() {
+  document.querySelectorAll('.download-trigger').forEach(button => {
+    button.addEventListener('click', handleDownloadClick);
+  });
+}
+
 function paintAll(){
   const d = computeProgress();
   const pctStr = d.yearPct.toFixed(1);
@@ -898,6 +1013,8 @@ function buildCalendar(now){
 }
 
 paintAll();
+bindDownloadButtons();
+loadLatestVersion();
 setInterval(paintAll, 30000);
 
 // ---------- Spotlight card mouse tracking ----------
