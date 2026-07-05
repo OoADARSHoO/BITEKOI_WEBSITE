@@ -853,7 +853,6 @@ function setDownloadButtonState(button, isLoading, label) {
   if (isLoading) {
     button.classList.add('is-loading', 'is-disabled');
     button.setAttribute('aria-disabled', 'true');
-    button.removeAttribute('href');
     if (labelEl) labelEl.textContent = 'Downloading...';
     if (spinnerEl) spinnerEl.hidden = false;
     if (statusEl) statusEl.textContent = '';
@@ -862,7 +861,6 @@ function setDownloadButtonState(button, isLoading, label) {
 
   button.classList.remove('is-loading', 'is-disabled');
   button.setAttribute('aria-disabled', 'false');
-  button.setAttribute('href', '#download');
   if (labelEl) labelEl.textContent = label || button.dataset.downloadLabel || 'Download for Windows';
   if (spinnerEl) spinnerEl.hidden = true;
 }
@@ -917,6 +915,8 @@ async function handleDownloadClick(event) {
   event.preventDefault();
   setDownloadButtonState(button, true);
 
+  let navigated = false;
+
   try {
     const release = await fetchLatestRelease();
     const asset = Array.isArray(release.assets)
@@ -928,9 +928,13 @@ async function handleDownloadClick(event) {
     }
 
     window.location.href = asset.browser_download_url;
+    navigated = true;
   } catch (error) {
-    setDownloadButtonState(button, false);
     setDownloadStatus(button, 'Download unavailable. Please try again.');
+  } finally {
+    if (!navigated) {
+      setDownloadButtonState(button, false);
+    }
   }
 }
 
@@ -1057,10 +1061,11 @@ document.querySelectorAll('.theme-card').forEach(card=>{
   // smooth anchor-link navigation through Lenis
   document.querySelectorAll('a[href^="#"]').forEach(link=>{
     link.addEventListener('click', (e)=>{
+      if (link.classList.contains('is-loading')) return;
       const id = link.getAttribute('href');
-      if(id.length < 2) return;
+      if (!id || id.length < 2) return;
       const el = document.querySelector(id);
-      if(!el) return;
+      if (!el) return;
       e.preventDefault();
       lenis.scrollTo(el, { offset: -90 });
     });
