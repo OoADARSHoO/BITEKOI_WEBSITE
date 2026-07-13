@@ -1,307 +1,1295 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bitekoi - Self-Growth Apps & Software</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Bitekoi Labs — Building tools for a better path forward</title>
+    <meta name="description"
+        content="Bitekoi Labs is an independent laboratory building self-improvement software. Started as one person's personal toolkit, now shared with everyone on the path.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display.swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --bg: #06060a;
+            --bg-soft: #0b0b12;
+            --surface: rgba(255, 255, 255, 0.035);
+            --surface-strong: rgba(255, 255, 255, 0.06);
+            --border: rgba(255, 255, 255, 0.09);
+            --border-strong: rgba(255, 255, 255, 0.16);
+            --text: #f4f4f7;
+            --text-dim: #9d9dab;
+            --text-dimmer: #6d6d7c;
+            --violet: #8b5cf6;
+            --indigo: #6366f1;
+            --teal: #2dd4bf;
+            --live: #34d399;
+            --grad: linear-gradient(135deg, var(--violet), var(--indigo) 55%, var(--teal));
+            --grad-soft: linear-gradient(135deg, rgba(139, 92, 246, 0.16), rgba(45, 212, 191, 0.10));
+            --radius: 18px;
+            --font-display: 'Space Grotesk', 'Inter', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Inter', sans-serif;
-            background-color: #000000;
-            color: #E2E8F0;
+            background: var(--bg);
+            color: var(--text);
+            font-family: var(--font-body);
+            line-height: 1.5;
             overflow-x: hidden;
-            cursor: none;
-            /* --- NEW: Added for page transition --- */
-            opacity: 0;
-            transition: opacity 0.5s ease-in-out;
-            /* --- End New --- */
-        } 
-
-        /* UPDATED: Frosted Glass Effect for Navbar using SVG Filter */
-        .glass-nav {
-            background: rgba(255, 255, 255, 0.08); /* */
-            box-shadow: inset 0 -1px 0 rgba(255, 255, 255, 0.1);
-            /* This applies the SVG filter defined below */
-            -webkit-backdrop-filter: url(#frosted); /* */
-            backdrop-filter: url(#frosted); /* */
-        }
-        
-        /* Custom Cursor */
-        .cursor-dot {
-            width: 8px; height: 8px; background-color: #A78BFA; border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; transition: width 0.2s, height 0.2s;
-        }
-        .cursor-outline {
-            width: 40px; height: 40px; border: 2px solid rgba(167, 139, 250, 0.5); border-radius: 50%; position: fixed; top: 0; left: 0; transform: translate(-50%, -50%); pointer-events: none; z-index: 9999; transition: all 0.2s ease-out;
-        }
-        body:has(a:hover, button:hover, .card:hover) .cursor-outline {
-             transform: translate(-50%, -50%) scale(1.5); background-color: rgba(167, 139, 250, 0.1);
-        }
-        body:has(a:hover, button:hover, .card:hover) .cursor-dot {
-             transform: translate(-50%, -50%) scale(0.5);
-        }
-        .gradient-text {
-            background: linear-gradient(90deg, #8B5CF6, #34D399);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text; /* Optional fallback for Firefox (won’t fully work yet) */
-            color: transparent; /* Fallback for unsupported browsers */
+            -webkit-font-smoothing: antialiased;
         }
 
-        .hero-bg {
-            background-image: radial-gradient(circle at 10% 20%, rgba(139, 92, 246, 0.15) 0%, transparent 40%), radial-gradient(circle at 90% 80%, rgba(52, 211, 153, 0.1) 0%, transparent 50%);
+        ::selection {
+            background: rgba(139, 92, 246, 0.35);
+            color: #fff;
         }
-        .card {
-            background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s ease; position: relative; overflow: hidden;
+
+        a {
+            color: inherit;
+            text-decoration: none;
         }
-        .card:before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(167, 139, 250, 0.1), transparent 40%); opacity: 0; transition: opacity 0.5s;
+
+        img {
+            max-width: 100%;
+            display: block;
         }
-        .card:hover:before { opacity: 1; }
-        .card:hover {
-            transform: translateY(-8px); border-color: rgba(167, 139, 250, 0.5); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+
+        .wrap {
+            max-width: 1180px;
+            margin: 0 auto;
+            padding: 0 32px;
         }
-        .form-input {
-            background-color: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.3s;
+
+        h1,
+        h2,
+        h3 {
+            font-family: var(--font-display);
+            letter-spacing: -0.02em;
         }
-        .form-input:focus {
-            background-color: rgba(255, 255, 255, 0.08); border-color: #A78BFA; outline: none; box-shadow: 0 0 0 2px rgba(167, 139, 250, 0.3);
+
+        /* ---------- ambient background ---------- */
+        .noise {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.035;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
         }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-        .fade-in { animation: fadeIn 1s ease-in-out forwards; }
-        .fade-in-up { animation: fadeInUp 0.8s ease-out forwards; opacity: 0; }
-        .delay-100 { animation-delay: 0.1s; } .delay-200 { animation-delay: 0.2s; } .delay-300 { animation-delay: 0.3s; } .delay-400 { animation-delay: 0.4s; } .delay-500 { animation-delay: 0.5s; }
-        
-        /* Hide custom cursor on mobile */
-        @media (hover: none), (pointer: coarse) {
-            body {
-                cursor: auto;
+
+        .stars {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background-image:
+                radial-gradient(1px 1px at 20% 30%, rgba(255, 255, 255, 0.5), transparent),
+                radial-gradient(1px 1px at 75% 15%, rgba(255, 255, 255, 0.4), transparent),
+                radial-gradient(1.5px 1.5px at 60% 70%, rgba(255, 255, 255, 0.35), transparent),
+                radial-gradient(1px 1px at 90% 55%, rgba(255, 255, 255, 0.3), transparent),
+                radial-gradient(1px 1px at 35% 85%, rgba(255, 255, 255, 0.35), transparent),
+                radial-gradient(1.5px 1.5px at 10% 60%, rgba(255, 255, 255, 0.3), transparent);
+            background-repeat: repeat;
+            background-size: 800px 800px;
+            opacity: 0.6;
+        }
+
+        /* glow horizon behind hero */
+        .horizon {
+            position: absolute;
+            top: -260px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 1400px;
+            height: 620px;
+            z-index: 0;
+            pointer-events: none;
+            filter: blur(0px);
+        }
+
+        .horizon .ring {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            animation: horizonIn 1.8s cubic-bezier(0.16, 1, 0.3, 1) both;
+        }
+
+        .horizon .r1 {
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.9), transparent 60%);
+            inset: 40% 20%;
+            filter: blur(30px);
+            opacity: 0.5;
+            animation-delay: .5s;
+        }
+
+        .horizon .r2 {
+            background: radial-gradient(circle, rgba(139, 92, 246, 0.55), transparent 62%);
+            inset: 8% -4%;
+            filter: blur(50px);
+            animation-delay: .2s;
+        }
+
+        .horizon .r3 {
+            background: radial-gradient(circle, rgba(45, 212, 191, 0.4), transparent 62%);
+            inset: 12% 4%;
+            filter: blur(60px);
+            animation-delay: 0s;
+        }
+
+        @keyframes horizonIn {
+            from {
+                transform: translateY(-14%) scale(1.3);
+                opacity: 0;
             }
-            .cursor-dot, .cursor-outline {
+
+            to {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        /* ---------- nav ---------- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 50;
+            padding: 18px 0;
+        }
+
+        .nav-inner {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 10px 14px 10px 22px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(10, 10, 16, 0.55);
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1.15rem;
+        }
+
+        .brand .mark {
+            width: 26px;
+            height: 26px;
+            border-radius: 8px;
+            background: var(--grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #06060a;
+            box-shadow: 0 0 18px rgba(139, 92, 246, 0.55);
+        }
+
+        .brand span.grad {
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 30px;
+            align-items: center;
+        }
+
+        nav a.navlink {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            font-weight: 500;
+            position: relative;
+            padding: 6px 2px;
+            transition: color .2s;
+        }
+
+        nav a.navlink:hover {
+            color: var(--text);
+        }
+
+        nav a.navlink.active {
+            color: var(--text);
+        }
+
+        nav a.navlink.active::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -6px;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background: var(--violet);
+            box-shadow: 0 0 8px var(--violet);
+        }
+
+        .nav-cta {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* liquid glass button */
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.88rem;
+            padding: 11px 20px;
+            border-radius: 999px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            white-space: nowrap;
+            transition: transform .25s cubic-bezier(.16, 1, .3, 1), box-shadow .25s, filter .2s;
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-primary {
+            background: var(--grad);
+            color: #07070c;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 6px 26px rgba(139, 92, 246, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+            transform: translateY(-1px);
+        }
+
+        .btn-ghost {
+            background: var(--surface);
+            color: var(--text);
+            border-color: var(--border-strong);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-ghost:hover {
+            background: var(--surface-strong);
+            border-color: rgba(255, 255, 255, 0.28);
+            transform: translateY(-1px);
+        }
+
+        .btn svg {
+            width: 15px;
+            height: 15px;
+        }
+
+        .btn-sm {
+            padding: 8px 15px;
+            font-size: 0.82rem;
+        }
+
+        /* ---------- hero ---------- */
+        .hero {
+            position: relative;
+            z-index: 1;
+            padding: 190px 0 110px;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .eyebrow {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 14px;
+            border-radius: 999px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            font-size: 0.72rem;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            font-weight: 600;
+            margin-bottom: 22px;
+        }
+
+        .eyebrow .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--violet);
+            box-shadow: 0 0 8px var(--violet);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.4rem, 4.6vw, 3.6rem);
+            font-weight: 700;
+            line-height: 1.06;
+            margin-bottom: 22px;
+        }
+
+        .hero h1 .grad {
+            background: var(--grad);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero p.lede {
+            color: var(--text-dim);
+            font-size: 1.06rem;
+            max-width: 470px;
+            margin-bottom: 34px;
+        }
+
+        .hero-ctas {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        /* hero mark / cube */
+        .hero-visual {
+            position: relative;
+            height: 420px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .cube-stage {
+            position: relative;
+            width: 260px;
+            height: 260px;
+            transform-style: preserve-3d;
+            animation: floatCube 6s ease-in-out infinite;
+        }
+
+        @keyframes floatCube {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-14px) rotate(1deg);
+            }
+        }
+
+        .orbit {
+            position: absolute;
+            inset: -60px;
+            border-radius: 50%;
+            border: 1px solid rgba(139, 92, 246, 0.28);
+            animation: spin 18s linear infinite;
+        }
+
+        .orbit::before {
+            content: "";
+            position: absolute;
+            top: -3px;
+            left: 50%;
+            width: 7px;
+            height: 7px;
+            margin-left: -3.5px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 12px var(--teal);
+        }
+
+        .orbit.o2 {
+            inset: -110px;
+            border-color: rgba(45, 212, 191, 0.18);
+            animation-duration: 26s;
+            animation-direction: reverse;
+        }
+
+        .orbit.o2::before {
+            background: var(--violet);
+            box-shadow: 0 0 12px var(--violet);
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .cube-face {
+            position: absolute;
+            inset: 0;
+            border-radius: 26px;
+            background: linear-gradient(155deg, rgba(139, 92, 246, 0.16), rgba(45, 212, 191, 0.10));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(6px);
+            box-shadow:
+                0 0 0 1px rgba(255, 255, 255, 0.03) inset,
+                0 30px 80px -20px rgba(139, 92, 246, 0.45),
+                0 0 120px -30px rgba(45, 212, 191, 0.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .atom {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            filter: drop-shadow(0 0 24px rgba(139, 92, 246, 0.45));
+        }
+
+        .atom .nucleus {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            margin: -8px 0 0 -8px;
+            border-radius: 50%;
+            background: var(--grad);
+            box-shadow: 0 0 22px 4px rgba(139, 92, 246, 0.7), 0 0 40px 10px rgba(45, 212, 191, 0.35);
+        }
+
+        .atom .path {
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            border: 1.4px solid rgba(255, 255, 255, 0.22);
+        }
+
+        .atom .path::after {
+            content: "";
+            position: absolute;
+            top: -3.5px;
+            left: 50%;
+            width: 7px;
+            height: 7px;
+            margin-left: -3.5px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 10px 2px #fff;
+        }
+
+        .atom .path.p1 {
+            transform: rotate(0deg);
+            animation: atomSpin1 4.5s linear infinite;
+        }
+
+        .atom .path.p2 {
+            transform: rotate(60deg) scaleY(0.55);
+            animation: atomSpin2 6s linear infinite;
+        }
+
+        .atom .path.p3 {
+            transform: rotate(-60deg) scaleY(0.55);
+            animation: atomSpin3 5.2s linear infinite;
+        }
+
+        .atom .path.p1::after {
+            background: var(--teal);
+            box-shadow: 0 0 10px 2px var(--teal);
+        }
+
+        .atom .path.p2::after {
+            background: var(--violet);
+            box-shadow: 0 0 10px 2px var(--violet);
+        }
+
+        .atom .path.p3::after {
+            background: var(--indigo);
+            box-shadow: 0 0 10px 2px var(--indigo);
+        }
+
+        @keyframes atomSpin1 {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        @keyframes atomSpin2 {
+            to {
+                transform: rotate(-300deg) scaleY(0.55);
+            }
+        }
+
+        @keyframes atomSpin3 {
+            to {
+                transform: rotate(300deg) scaleY(0.55);
+            }
+        }
+
+        .cube-tag {
+            position: absolute;
+            bottom: 22px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.62rem;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: var(--text-dimmer);
+            white-space: nowrap;
+        }
+
+        .spark {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background: #fff;
+            box-shadow: 0 0 8px #fff;
+            opacity: 0.8;
+        }
+
+        /* ---------- section shared ---------- */
+        section {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-head {
+            text-align: center;
+            max-width: 620px;
+            margin: 0 auto 56px;
+        }
+
+        .section-head .eyebrow {
+            margin-bottom: 16px;
+        }
+
+        .section-head h2 {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
+            margin-bottom: 14px;
+        }
+
+        .section-head p {
+            color: var(--text-dim);
+            font-size: 1rem;
+        }
+
+        .labs {
+            padding: 40px 0 110px;
+        }
+
+        .project-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+        }
+
+        /* spotlight glass card */
+        .card {
+            position: relative;
+            border-radius: var(--radius);
+            padding: 28px 26px 26px;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            backdrop-filter: blur(14px);
+            overflow: hidden;
+            transition: border-color .3s, transform .3s cubic-bezier(.16, 1, .3, 1), box-shadow .3s;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            opacity: 0;
+            pointer-events: none;
+            background: radial-gradient(320px circle at var(--mx, 50%) var(--my, 50%), rgba(139, 92, 246, 0.16), transparent 60%);
+            transition: opacity .35s;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 24px 50px -20px rgba(0, 0, 0, 0.6);
+        }
+
+        .card.live {
+            border-color: rgba(139, 92, 246, 0.4);
+            box-shadow: 0 0 0 1px rgba(139, 92, 246, 0.15), 0 20px 60px -25px rgba(139, 92, 246, 0.4);
+        }
+
+        .card.live:hover {
+            border-color: rgba(139, 92, 246, 0.65);
+        }
+
+        .card-top {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 13px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--grad-soft);
+            border: 1px solid var(--border);
+            font-size: 1.25rem;
+        }
+
+        .badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.66rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            padding: 5px 10px;
+            border-radius: 999px;
+        }
+
+        .badge.live {
+            background: rgba(52, 211, 153, 0.12);
+            color: var(--live);
+            border: 1px solid rgba(52, 211, 153, 0.3);
+        }
+
+        .badge.soon {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-dimmer);
+            border: 1px solid var(--border);
+        }
+
+        .badge.live .dot {
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            background: var(--live);
+            box-shadow: 0 0 6px var(--live);
+        }
+
+        .card h3 {
+            font-size: 1.28rem;
+            margin-bottom: 10px;
+        }
+
+        .card p {
+            color: var(--text-dim);
+            font-size: 0.92rem;
+            margin-bottom: 22px;
+            min-height: 62px;
+        }
+
+        .card-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-weight: 600;
+            font-size: 0.88rem;
+        }
+
+        .card-link.enabled {
+            color: var(--violet);
+        }
+
+        .card-link.enabled svg {
+            transition: transform .2s;
+        }
+
+        .card:hover .card-link.enabled svg {
+            transform: translate(3px, -3px);
+        }
+
+        .card-link.disabled {
+            color: var(--text-dimmer);
+            cursor: default;
+        }
+
+        /* ---------- about ---------- */
+        .about {
+            padding: 30px 0 110px;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1.1fr 0.9fr;
+            gap: 60px;
+            align-items: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 26px;
+            padding: 56px;
+            backdrop-filter: blur(14px);
+        }
+
+        .about h2 {
+            font-size: clamp(1.7rem, 3vw, 2.3rem);
+            margin-bottom: 18px;
+        }
+
+        .about p {
+            color: var(--text-dim);
+            margin-bottom: 16px;
+            font-size: 0.98rem;
+        }
+
+        .about-values {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .value {
+            padding: 20px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+        }
+
+        .value .vicon {
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            margin-bottom: 12px;
+            background: var(--grad-soft);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
+        }
+
+        .value h4 {
+            font-size: 0.94rem;
+            margin-bottom: 6px;
+            font-family: var(--font-body);
+            font-weight: 700;
+        }
+
+        .value p {
+            font-size: 0.82rem;
+            margin: 0;
+            color: var(--text-dimmer);
+        }
+
+        /* ---------- cta / contact ---------- */
+        .contact {
+            padding: 0 0 90px;
+        }
+
+        .contact-box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            flex-wrap: wrap;
+            padding: 40px 46px;
+            border-radius: 22px;
+            background: linear-gradient(120deg, rgba(139, 92, 246, 0.14), rgba(45, 212, 191, 0.08));
+            border: 1px solid rgba(139, 92, 246, 0.28);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-box::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: 0.5;
+            pointer-events: none;
+            background: radial-gradient(500px circle at 85% 0%, rgba(45, 212, 191, 0.25), transparent 60%);
+        }
+
+        .contact-left {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .contact-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 14px;
+            flex-shrink: 0;
+            background: var(--grad);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 0 24px rgba(139, 92, 246, 0.45);
+        }
+
+        .contact-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 5px;
+        }
+
+        .contact-box p.sub {
+            color: var(--text-dim);
+            font-size: 0.92rem;
+        }
+
+        /* ---------- footer ---------- */
+        footer {
+            padding: 34px 0 40px;
+            border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-family: var(--font-display);
+            font-weight: 700;
+        }
+
+        .footer-mid {
+            color: var(--text-dimmer);
+            font-size: 0.85rem;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 14px;
+        }
+
+        .footer-social a {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-dim);
+            transition: all .2s;
+        }
+
+        .footer-social a:hover {
+            color: #fff;
+            border-color: var(--violet);
+            background: rgba(139, 92, 246, 0.12);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 24px;
+            color: var(--text-dimmer);
+            font-size: 0.78rem;
+        }
+
+        /* ---------- mobile nav ---------- */
+        .burger {
+            display: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 9px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        .burger span {
+            display: block;
+            width: 16px;
+            height: 1.5px;
+            background: var(--text);
+            position: relative;
+        }
+
+        .burger span::before,
+        .burger span::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 16px;
+            height: 1.5px;
+            background: var(--text);
+        }
+
+        .burger span::before {
+            top: -5px;
+        }
+
+        .burger span::after {
+            top: 5px;
+        }
+
+        @media (max-width: 900px) {
+            nav ul {
                 display: none;
+            }
+
+            .burger {
+                display: flex;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding-top: 150px;
+                text-align: center;
+            }
+
+            .hero p.lede {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-ctas {
+                justify-content: center;
+            }
+
+            .hero-visual {
+                height: 280px;
+                order: -1;
+            }
+
+            .cube-stage {
+                width: 180px;
+                height: 180px;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                padding: 34px;
+            }
+
+            .project-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-box {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media (max-width: 560px) {
+            .wrap {
+                padding: 0 20px;
+            }
+
+            .nav-inner {
+                padding: 8px 8px 8px 16px;
+            }
+
+            .brand span.text {
+                display: none;
+            }
+
+            .about-values {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
-<body class="antialiased">
-    <!-- SVG Filter Definition -->
-    <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display:none">
-      <defs>
-        <filter id="frosted">
-          <feTurbulence type="fractalNoise" baseFrequency="0.01 0.04" numOctaves="2" result="noise" />
-          <feDisplacementMap in="SourceGraphic" in2="noise" scale="15" />
-        </filter>
-      </defs>
-    </svg>
 
-    <!-- Custom Cursor -->
-    <div class="cursor-dot"></div>
-    <div class="cursor-outline"></div>
+<body>
 
-    <!-- Header & Navigation -->
-    <header id="header" class="glass-nav fixed top-0 left-0 right-0 z-50">
-        <div class="container mx-auto px-6 py-4">
-            <nav class="flex justify-between items-center">
-                <a href="#home" class="text-xl font-bold gradient-text">Bitekoi</a>
-                <ul class="hidden md:flex items-center space-x-8">
-                    <li><a href="#home" class="text-slate-300 hover:text-white transition-colors duration-300">Home</a></li>
-                    <li><a href="#labs" class="text-slate-300 hover:text-white transition-colors duration-300">Labs</a></li>
-                    <li><a href="#contact" class="text-slate-300 hover:text-white transition-colors duration-300">Contact</a></li>
+    <div class="noise"></div>
+    <div class="stars"></div>
+
+    <header>
+        <div class="nav-inner">
+            <a href="#home" class="brand"><span class="mark">B</span><span class="grad text">Bitekoi</span></a>
+            <nav>
+                <ul>
+                    <li><a href="#home" class="navlink active">Home</a></li>
+                    <li><a href="#labs" class="navlink">Labs</a></li>
+                    <li><a href="#about" class="navlink">About</a></li>
+                    <li><a href="#roadmap" class="navlink">Roadmap</a></li>
+                    <li><a href="#contact" class="navlink">Contact</a></li>
                 </ul>
-                <a href="#contact" class="hidden md:inline-block bg-violet-500 text-white font-semibold px-5 py-2 rounded-lg hover:bg-violet-600 transition-all duration-300 shadow-lg shadow-violet-500/20">Contact Me</a>
-                <button id="mobile-menu-button" class="md:hidden text-white"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg></button>
             </nav>
-        </div>
-        <!-- Mobile Menu -->
-        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4">
-            <a href="#home" class="block py-2 text-slate-300 hover:text-white">Home</a>
-            <a href="#labs" class="block py-2 text-slate-300 hover:text-white">Labs</a>
-            <a href="#contact" class="block py-2 text-slate-300 hover:text-white">Contact</a>
+            <div class="nav-cta">
+                <a href="#contact" class="btn btn-primary btn-sm">Contact Me
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                        <path d="M7 17L17 7M17 7H8M17 7v9" />
+                    </svg>
+                </a>
+                <div class="burger"><span></span></div>
+            </div>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section id="home" class="min-h-screen flex items-center justify-center hero-bg pt-20">
-            <div class="container mx-auto px-6 text-center">
-                 <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold text-white leading-tight mb-6 fade-in-up">Crafting Digital Tools for <span class="gradient-text">Self-Growth</span></h1>
-                <p class="text-lg md:text-xl text-slate-400 mb-10 fade-in-up delay-200">I build intuitive applications and software designed to help you understand yourself better, cultivate positive habits, and unlock your full potential.</p>
-                <div class="flex justify-center space-x-4 fade-in-up delay-400">
-                    <a href="#labs" class="bg-violet-500 text-white font-semibold px-8 py-3 rounded-lg hover:bg-violet-600 transition-all duration-300 shadow-lg shadow-violet-500/30 transform hover:scale-105">Explore Labs</a>
-                    <a href="#contact" class="bg-gray-700/50 text-white font-semibold px-8 py-3 rounded-lg hover:bg-gray-600/50 transition-all duration-300 border border-gray-600 transform hover:scale-105">Get In Touch</a>
+        <!-- HERO -->
+        <section id="home" class="hero wrap">
+            <div class="horizon" aria-hidden="true">
+                <div class="ring r2"></div>
+                <div class="ring r3"></div>
+                <div class="ring r1"></div>
+            </div>
+
+            <div class="hero-copy">
+                <span class="eyebrow"><span class="dot"></span> Bitekoi Labs</span>
+                <h1>Building tools for<br>a <span class="grad">better path forward.</span></h1>
+                <p class="lede">I build software to keep myself accountable, focused, and moving forward. Bitekoi Labs
+                    is where those personal tools get refined and shared &mdash; for anyone else on the same path.</p>
+                <div class="hero-ctas">
+                    <a href="#labs" class="btn btn-primary">Explore Labs
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                            <path d="M7 17L17 7M17 7H8M17 7v9" />
+                        </svg>
+                    </a>
+                    <a href="#roadmap" class="btn btn-ghost">View Roadmap
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="orbit o2"></div>
+                <div class="orbit"></div>
+                <div class="cube-stage">
+                    <div class="cube-face">
+                        <div class="atom">
+                            <div class="path p1"></div>
+                            <div class="path p2"></div>
+                            <div class="path p3"></div>
+                            <div class="nucleus"></div>
+                        </div>
+                    </div>
+                    <div class="cube-tag">Build &middot; Reflect &middot; Evolve</div>
                 </div>
             </div>
         </section>
 
-        <!-- Labs Section (MODIFIED) -->
-        <section id="labs" class="py-20 md:py-32">
-             <div class="container mx-auto px-6">
-                <div class="text-center mb-16">
-                    <h2 class="text-3xl md:text-5xl font-bold text-white mb-4 fade-in-up">My Laboratory</h2>
-                    <p class="text-lg text-slate-400 max-w-2xl mx-auto fade-in-up delay-200">A showcase of projects and experiments. Each one is a step towards creating more meaningful technology.</p>
-                </div>
-                <!-- Updated Grid: Changed to 2-column grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                    <!-- EchoRune Card -->
-                    <a href="01-page2.html" class="card rounded-2xl p-8 fade-in-up delay-100 block">
-                        <div class="mb-4">
-                            <!-- Using a different icon for EchoRune -->
-                            <svg class="w-12 h-12 text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path>
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 9.5H12"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-3">EchoRune</h3>
-                        <p class="text-slate-400 mb-6">An experimental interface for exploring digital consciousness and memory.</p>
-                        <span class="font-semibold text-violet-400 hover:text-violet-300 transition-colors">Launch Project &rarr;</span>
-                    </a>
+        <!-- LABS / PROJECTS -->
+        <section id="labs" class="labs wrap">
+            <div class="section-head">
+                <span class="eyebrow"><span class="dot"></span> My Laboratory</span>
+                <h2>Projects in development</h2>
+                <p>Everything here starts as something I needed myself. If it helps me grow, it ships &mdash; so it can
+                    help you too.</p>
+            </div>
 
-                    <!-- NEW Everlastimer Card -->
-                    <a href="01-page3.html" class="card rounded-2xl p-8 fade-in-up delay-200 block">
-                        <div class="mb-4">
-                            <!-- Icon for Everlastimer (clock) -->
-                            <svg class="w-12 h-12 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                        </div>
-                        <h3 class="text-2xl font-bold text-white mb-3">Everlastimer</h3>
-                        <p class="text-slate-400 mb-6">A minimal desktop widget to track year-end progress.</p>
-                        <span class="font-semibold text-violet-400 hover:text-violet-300 transition-colors">Launch Project &rarr;</span>
+            <div class="project-grid">
+
+                <!-- Everlastimer - LIVE -->
+                <a href="https://bitekoi.com/everlastimer" class="card live" data-tilt>
+                    <div class="card-top">
+                        <div class="card-icon">&#9201;&#65039;</div>
+                        <span class="badge live"><span class="dot"></span>Live</span>
+                    </div>
+                    <h3>Everlastimer</h3>
+                    <p>A minimal desktop widget that tracks your year's progress in real time &mdash; a quiet reminder
+                        that time keeps moving, so you should too.</p>
+                    <span class="card-link enabled">View Project
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                            <path d="M7 17L17 7M17 7H8M17 7v9" />
+                        </svg>
+                    </span>
+                </a>
+
+                <!-- EchoRune -->
+                <div class="card" data-tilt>
+                    <div class="card-top">
+                        <div class="card-icon">&#127911;</div>
+                        <span class="badge soon">Coming Soon</span>
+                    </div>
+                    <h3>EchoRune</h3>
+                    <p>A space for exploring your own thought patterns &mdash; a quiet companion for reflection, memory,
+                        and self-awareness.</p>
+                    <span class="card-link disabled">In development</span>
+                </div>
+
+                <!-- Spfenx -->
+                <div class="card" data-tilt>
+                    <div class="card-top">
+                        <div class="card-icon">&#9889;</div>
+                        <span class="badge soon">Coming Soon</span>
+                    </div>
+                    <h3>Spfenx</h3>
+                    <p>Rising from routine, rebuilt with intention. Details are still taking shape in the lab.</p>
+                    <span class="card-link disabled">In development</span>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- ABOUT -->
+        <section id="about" class="about wrap">
+            <div class="about-grid">
+                <div class="about-copy">
+                    <span class="eyebrow"><span class="dot"></span> About Bitekoi</span>
+                    <h2>More than apps.<br>A <span class="grad">mindset.</span></h2>
+                    <p>Bitekoi Labs started as my own personal lab &mdash; tools I built to stay disciplined, track
+                        progress, and hold myself to something bigger. Somewhere along the way, I realized the same
+                        tools could help anyone else trying to become their best self.</p>
+                    <p>Every project here is built the same way: solve a real problem I'm facing first, keep it clean
+                        and minimal, then put it in the hands of people on the same journey.</p>
+                    <a href="#labs" class="btn btn-ghost btn-sm">Explore the Labs
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                            <path d="M7 17L17 7M17 7H8M17 7v9" />
+                        </svg>
                     </a>
+                </div>
+                <div class="about-values">
+                    <div class="value">
+                        <div class="vicon">&#127919;</div>
+                        <h4>Purpose Driven</h4>
+                        <p>Every project starts as a problem I need to solve for myself.</p>
+                    </div>
+                    <div class="value">
+                        <div class="vicon">&#129514;</div>
+                        <h4>Built to Last</h4>
+                        <p>Clean, minimal, and crafted with long-term thinking.</p>
+                    </div>
+                    <div class="value">
+                        <div class="vicon">&#9203;</div>
+                        <h4>Legacy First</h4>
+                        <p>What I build for myself today becomes something others can lean on tomorrow.</p>
+                    </div>
+                    <div class="value">
+                        <div class="vicon">&#127793;</div>
+                        <h4>For Self-Growth</h4>
+                        <p>Designed to help you reflect, focus, and keep moving forward.</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- Contact Section -->
-        <section id="contact" class="py-20 md:py-32">
-            <div class="container mx-auto px-6">
-                 <div class="text-center mb-16"><h2 class="text-3xl md:text-5xl font-bold text-white mb-4 fade-in-up">Let's Connect</h2><p class="text-lg text-slate-400 max-w-2xl mx-auto fade-in-up delay-200">Have a question, an idea for a project, or just want to say hello? Drop me a line.</p></div>
-                <div class="max-w-2xl mx-auto">
-                    <form id="contact-form" class="space-y-6"><div class="fade-in-up delay-300"><label for="name" class="block text-sm font-medium text-slate-300 mb-2">Full Name</label><input type="text" name="name" id="name" required class="form-input w-full px-4 py-3 rounded-lg text-white" placeholder="Your Name"></div><div class="fade-in-up delay-400"><label for="email" class="block text-sm font-medium text-slate-300 mb-2">Email Address</label><input type="email" name="email" id="email" required class="form-input w-full px-4 py-3 rounded-lg text-white" placeholder="you@example.com"></div><div class="fade-in-up delay-500"><label for="message" class="block text-sm font-medium text-slate-300 mb-2">Message</label><textarea name="message" id="message" rows="5" required class="form-input w-full px-4 py-3 rounded-lg text-white" placeholder="How can I help you?"></textarea></div><div class="text-center fade-in-up delay-500"><button type="submit" class="bg-green-500 text-black font-bold px-10 py-3 rounded-lg hover:bg-green-600 transition-all duration-300 shadow-lg shadow-green-500/20 transform hover:scale-105 w-full md:w-auto">Send Message</button></div></form>
-                    <div id="form-status" class="text-center mt-6"></div>
+        <!-- CONTACT -->
+        <section id="contact" class="contact wrap">
+            <div class="contact-box">
+                <div class="contact-left">
+                    <div class="contact-icon">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#06060a" stroke-width="2.4">
+                            <path d="M4 4h16v16H4z" opacity="0" />
+                            <path d="M22 6l-10 7L2 6" />
+                            <path d="M2 6h20v12H2z" />
+                        </svg>
+                    </div>
+                    <div>
+                        <h3>Let's build something meaningful.</h3>
+                        <p class="sub">Got an idea, feedback, or want to collaborate? I'd love to hear it.</p>
+                    </div>
                 </div>
+                <a href="mailto:hello@bitekoi.com" class="btn btn-primary">Get In Touch
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                        <path d="M7 17L17 7M17 7H8M17 7v9" />
+                    </svg>
+                </a>
             </div>
         </section>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-slate-800 py-8">
-        <div class="container mx-auto px-6 text-center text-slate-500">
-            <p>&copy; 2024 Bitekoi. All rights reserved.</p>
-            <p class="text-sm mt-2">Designed with passion for personal development.</p>
+    <footer id="roadmap">
+        <div class="wrap footer-inner">
+            <a href="#home" class="footer-brand"><span class="grad">Bitekoi</span></a>
+            <div class="footer-mid">Building a better future, one tool at a time.</div>
+            <div class="footer-social">
+                <a href="#" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.04 1.03-2.76-.1-.26-.45-1.32.1-2.75 0 0 .84-.28 2.75 1.05a9.29 9.29 0 015 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.43.2 2.49.1 2.75.64.72 1.03 1.64 1.03 2.76 0 3.94-2.35 4.8-4.58 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0022 12.25C22 6.58 17.52 2 12 2z" />
+                    </svg></a>
+                <a href="#" aria-label="Twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                        <path
+                            d="M22 5.9c-.75.33-1.55.55-2.39.65a4.17 4.17 0 001.83-2.3 8.3 8.3 0 01-2.64 1.01A4.15 4.15 0 0012.4 9.4c0 .32.04.64.1.94A11.78 11.78 0 013.2 5.1a4.15 4.15 0 001.29 5.54 4.13 4.13 0 01-1.88-.52v.05a4.16 4.16 0 003.34 4.08c-.34.09-.7.14-1.07.14-.26 0-.51-.02-.76-.07a4.17 4.17 0 003.89 2.89A8.34 8.34 0 012 19.54 11.75 11.75 0 008.29 21.4c7.55 0 11.68-6.26 11.68-11.69l-.01-.53A8.18 8.18 0 0022 5.9z" />
+                    </svg></a>
+                <a href="mailto:hello@bitekoi.com" aria-label="Email"><svg width="16" height="16" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 6l-10 7L2 6" />
+                        <path d="M2 6h20v12H2z" />
+                    </svg></a>
+            </div>
         </div>
+        <div class="footer-bottom">&copy; 2025 Bitekoi Labs. All rights reserved.</div>
     </footer>
 
-    <!-- JavaScript -->
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            
-            // --- NEW: Page Fade-in ---
-            document.body.style.opacity = 1;
-
-            // --- NEW: Page Fade-out on link click ---
-            // Select all links that DO NOT start with '#'
-            const pageLinks = document.querySelectorAll('a:not([href^="#"])');
-            pageLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    const href = this.getAttribute('href');
-                    
-                    // Don't fade for new tabs
-                    if (this.target === '_blank' || (href && href.startsWith('mailto:'))) {
-                        return;
-                    }
-
-                    // Prevent default navigation
-                    e.preventDefault();
-                    
-                    // Start fade-out
-                    document.body.style.opacity = 0;
-                    
-                    // Go to new page after transition
-                    setTimeout(() => {
-                        if (href) {
-                            window.location.href = href;
-                        }
-                    }, 500); // Match CSS transition duration
-                });
+        // active nav link on scroll
+        const sections = document.querySelectorAll('main section, footer');
+        const navLinks = document.querySelectorAll('.navlink');
+        function onScroll() {
+            let current = 'home';
+            sections.forEach(sec => {
+                const rect = sec.getBoundingClientRect();
+                if (rect.top <= 140 && rect.bottom > 140) current = sec.id;
             });
-
-            // --- Existing JS (de-minified for clarity) ---
-            const cursorDot = document.querySelector(".cursor-dot");
-            const cursorOutline = document.querySelector(".cursor-outline");
-            
-            window.addEventListener("mousemove", function(s) {
-                const o = s.clientX,
-                    n = s.clientY;
-                cursorDot.style.left = `${o}px`;
-                cursorDot.style.top = `${n}px`;
-                cursorOutline.animate({ left: `${o}px`, top: `${n}px` }, { duration: 500, fill: "forwards" });
+            navLinks.forEach(l => {
+                l.classList.toggle('active', l.getAttribute('href') === '#' + current);
             });
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
 
-            const cards = document.querySelectorAll(".card");
-            cards.forEach(e => {
-                e.addEventListener("mousemove", t => {
-                    const s = e.getBoundingClientRect(),
-                        o = t.clientX - s.left,
-                        n = t.clientY - s.top;
-                    e.style.setProperty("--x", `${o}px`);
-                    e.style.setProperty("--y", `${n}px`);
-                });
+        // spotlight cursor tracking on cards
+        document.querySelectorAll('[data-tilt]').forEach(card => {
+            card.addEventListener('mousemove', e => {
+                const r = card.getBoundingClientRect();
+                card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+                card.style.setProperty('--my', (e.clientY - r.top) + 'px');
             });
+        });
 
-            const mobileMenuButton = document.getElementById("mobile-menu-button");
-            const mobileMenu = document.getElementById("mobile-menu");
-            if (mobileMenuButton && mobileMenu) {
-                mobileMenuButton.addEventListener("click", () => {
-                    mobileMenu.classList.toggle("hidden");
-                });
-                mobileMenu.addEventListener("click", e => {
-                    if (e.target.tagName === "A") {
-                        mobileMenu.classList.add("hidden");
-                    }
-                });
-            }
+        // random sparks in hero
+        const visual = document.querySelector('.hero-visual');
+        for (let i = 0; i < 10; i++) {
+            const s = document.createElement('div');
+            s.className = 'spark';
+            s.style.top = Math.random() * 100 + '%';
+            s.style.left = Math.random() * 100 + '%';
+            s.style.animation = `pulse ${2 + Math.random() * 3}s ease-in-out ${Math.random() * 3}s infinite`;
+            visual.appendChild(s);
+        }
+        const styleTag = document.createElement('style');
+        styleTag.textContent = `@keyframes pulse{0%,100%{opacity:.15; transform:scale(.6);}50%{opacity:1; transform:scale(1.3);}}`;
+        document.head.appendChild(styleTag);
 
-            // Smooth scroll for hash links
-            document.querySelectorAll('a[href^="#"]').forEach(e => {
-                e.addEventListener("click", function(t) {
-                    t.preventDefault();
-                    const targetEl = document.querySelector(this.getAttribute("href"));
-                    if (targetEl) {
-                        targetEl.scrollIntoView({ behavior: "smooth" });
-                    }
-                });
-            });
-
-            const fadeUpElements = document.querySelectorAll(".fade-in-up");
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            }, { threshold: 0.1 });
-            fadeUpElements.forEach(e => {
-                observer.observe(e);
-            });
-
-            const contactForm = document.getElementById("contact-form");
-            const formStatus = document.getElementById("form-status");
-            if (contactForm && formStatus) {
-                contactForm.addEventListener("submit", function(e) {
-                    e.preventDefault();
-                    formStatus.innerHTML = '<p class="text-green-400">Thank you! Your message has been sent.</p>';
-                    contactForm.reset();
-                    setTimeout(() => { formStatus.innerHTML = "" }, 5000);
-                });
-            }
+        // mobile burger -> simple scroll to labs (placeholder toggle)
+        document.querySelector('.burger').addEventListener('click', () => {
+            document.querySelector('#labs').scrollIntoView({ behavior: 'smooth' });
         });
     </script>
-</body>
-</html>
 
+</body>
+
+</html>
