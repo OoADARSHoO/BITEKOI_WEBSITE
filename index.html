@@ -862,6 +862,192 @@
             font-size: 0.92rem;
         }
 
+        /* ---------- contact modal ---------- */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            background: rgba(4, 4, 8, 0.65);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s cubic-bezier(.16, 1, .3, 1);
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            position: relative;
+            width: 100%;
+            max-width: 460px;
+            border-radius: 22px;
+            padding: 38px 36px 32px;
+            background: linear-gradient(160deg, rgba(20, 20, 30, 0.92), rgba(10, 10, 16, 0.92));
+            border: 1px solid var(--border-strong);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+            transform: translateY(18px) scale(0.97);
+            opacity: 0;
+            transition: transform .35s cubic-bezier(.16, 1, .3, 1), opacity .3s;
+        }
+
+        .modal-overlay.open .modal-box {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+        }
+
+        .modal-box::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 22px;
+            opacity: 0.6;
+            pointer-events: none;
+            background: radial-gradient(420px circle at 90% -10%, rgba(45, 212, 191, 0.16), transparent 60%);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--text-dim);
+            cursor: pointer;
+            transition: background .2s, color .2s, transform .2s;
+        }
+
+        .modal-close:hover {
+            background: var(--surface-strong);
+            color: var(--text);
+            transform: rotate(90deg);
+        }
+
+        .modal-box h3 {
+            font-size: 1.28rem;
+            margin-bottom: 6px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-box p.sub {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .field {
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .field label {
+            display: block;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--text-dim);
+            margin-bottom: 7px;
+            letter-spacing: 0.01em;
+        }
+
+        .field input,
+        .field textarea {
+            width: 100%;
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            color: var(--text);
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 11px 14px;
+            outline: none;
+            transition: border-color .2s, background .2s;
+            resize: vertical;
+        }
+
+        .field textarea {
+            min-height: 96px;
+            line-height: 1.5;
+        }
+
+        .field input::placeholder,
+        .field textarea::placeholder {
+            color: var(--text-dimmer);
+        }
+
+        .field input:focus,
+        .field textarea:focus {
+            border-color: rgba(139, 92, 246, 0.55);
+            background: var(--surface-strong);
+        }
+
+        .modal-submit {
+            width: 100%;
+            justify-content: center;
+            margin-top: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-fallback {
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-dimmer);
+            margin-top: 16px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-fallback a {
+            color: var(--teal);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .modal-status {
+            font-size: 0.85rem;
+            margin-top: 14px;
+            text-align: center;
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .modal-status.success {
+            display: block;
+            color: var(--live);
+        }
+
+        .modal-status.error {
+            display: block;
+            color: #f87171;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+
+            .modal-overlay,
+            .modal-box,
+            .modal-close {
+                transition: none !important;
+            }
+        }
+
         /* ---------- footer ---------- */
         footer {
             padding: 34px 0 40px;
@@ -1046,7 +1232,7 @@
                 </ul>
             </nav>
             <div class="nav-cta">
-                <a href="#contact" class="btn btn-primary btn-sm">Contact Me
+                <a href="#contact" class="btn btn-primary btn-sm" onclick="openContactModal(event)">Contact Me
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
                         <path d="M7 17L17 7M17 7H8M17 7v9" />
                     </svg>
@@ -1212,14 +1398,51 @@
                         <p class="sub">Got an idea, feedback, or want to collaborate? I'd love to hear it.</p>
                     </div>
                 </div>
-                <a href="mailto:hello@bitekoi.com" class="btn btn-primary">Get In Touch
+                <button type="button" class="btn btn-primary" onclick="openContactModal(event)">Get In Touch
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
                         <path d="M7 17L17 7M17 7H8M17 7v9" />
                     </svg>
-                </a>
+                </button>
             </div>
         </section>
     </main>
+
+    <!-- CONTACT MODAL -->
+    <div class="modal-overlay" id="contactModal" aria-hidden="true">
+        <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="contactModalTitle">
+            <button type="button" class="modal-close" aria-label="Close" onclick="closeContactModal()">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4">
+                    <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+            </button>
+            <h3 id="contactModalTitle">Let's build something meaningful.</h3>
+            <p class="sub">Got an idea, feedback, or want to collaborate? Send it over.</p>
+
+            <form id="contactForm">
+                <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+                <input type="hidden" name="subject" value="New message from Bitekoi Labs site">
+                <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off">
+
+                <div class="field">
+                    <label for="cf-name">Name</label>
+                    <input type="text" id="cf-name" name="name" placeholder="Your name" required>
+                </div>
+                <div class="field">
+                    <label for="cf-email">Email</label>
+                    <input type="email" id="cf-email" name="email" placeholder="you@example.com" required>
+                </div>
+                <div class="field">
+                    <label for="cf-message">Message</label>
+                    <textarea id="cf-message" name="message" placeholder="What's on your mind?" required></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary modal-submit" id="cfSubmitBtn">Send Message</button>
+                <div class="modal-status" id="cfStatus"></div>
+                <p class="modal-fallback">Prefer email? Reach me directly at <a
+                        href="mailto:hello@bitekoi.com">hello@bitekoi.com</a></p>
+            </form>
+        </div>
+    </div>
 
     <footer id="roadmap">
         <div class="wrap footer-inner">
@@ -1281,6 +1504,66 @@
         }
         const styleTag = document.createElement('style');
         styleTag.textContent = `@keyframes pulse{0%,100%{opacity:.15; transform:scale(.6);}50%{opacity:1; transform:scale(1.3);}}`;
+
+        // ---------- contact modal ----------
+        const contactModal = document.getElementById('contactModal');
+        const contactForm = document.getElementById('contactForm');
+        const cfSubmitBtn = document.getElementById('cfSubmitBtn');
+        const cfStatus = document.getElementById('cfStatus');
+        let lastFocusedEl = null;
+
+        function openContactModal(e) {
+            if (e) e.preventDefault();
+            lastFocusedEl = document.activeElement;
+            contactModal.classList.add('open');
+            contactModal.setAttribute('aria-hidden', 'false');
+            document.body.style.overflow = 'hidden';
+            setTimeout(() => document.getElementById('cf-name').focus(), 300);
+        }
+
+        function closeContactModal() {
+            contactModal.classList.remove('open');
+            contactModal.setAttribute('aria-hidden', 'true');
+            document.body.style.overflow = '';
+            if (lastFocusedEl) lastFocusedEl.focus();
+        }
+
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) closeContactModal();
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && contactModal.classList.contains('open')) closeContactModal();
+        });
+
+        contactForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            cfStatus.className = 'modal-status';
+            cfSubmitBtn.disabled = true;
+            cfSubmitBtn.textContent = 'Sending...';
+
+            try {
+                const res = await fetch('https://api.web3forms.com/submit', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                    body: JSON.stringify(Object.fromEntries(new FormData(contactForm)))
+                });
+                const result = await res.json();
+                if (result.success) {
+                    cfStatus.textContent = "Sent — I'll get back to you soon.";
+                    cfStatus.className = 'modal-status success';
+                    contactForm.reset();
+                } else {
+                    throw new Error(result.message || 'Something went wrong');
+                }
+            } catch (err) {
+                cfStatus.textContent = "Couldn't send — try the email link below instead.";
+                cfStatus.className = 'modal-status error';
+            } finally {
+                cfSubmitBtn.disabled = false;
+                cfSubmitBtn.textContent = 'Send Message';
+            }
+        });
         document.head.appendChild(styleTag);
 
         // mobile burger -> simple scroll to labs (placeholder toggle)
