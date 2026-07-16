@@ -1020,6 +1020,89 @@
             text-underline-offset: 3px;
         }
 
+        /* Email Popover styles */
+        .email-popover-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .email-popover {
+            position: absolute;
+            bottom: calc(100% + 10px);
+            left: 50%;
+            transform: translateX(-50%) translateY(5px);
+            background: rgba(11, 11, 18, 0.98);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-strong);
+            border-radius: 12px;
+            padding: 6px;
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            display: none;
+            opacity: 0;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            z-index: 150;
+            width: 200px;
+        }
+
+        .email-popover.open {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .email-popover a,
+        .email-popover button {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.2s, color 0.2s;
+            width: 100%;
+            font-family: var(--font-body);
+            font-weight: 500;
+        }
+
+        .email-popover a:hover,
+        .email-popover button:hover {
+            background: var(--surface-strong);
+            color: var(--text);
+            text-decoration: none;
+        }
+
+        /* Tooltip arrow */
+        .email-popover::after {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 6px;
+            border-style: solid;
+            border-color: rgba(11, 11, 18, 0.98) transparent transparent transparent;
+        }
+        
+        .email-popover::before {
+            content: "";
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border-width: 7px;
+            border-style: solid;
+            border-color: var(--border-strong) transparent transparent transparent;
+            z-index: -1;
+        }
+
         .modal-status {
             font-size: 0.85rem;
             margin-top: 14px;
@@ -1438,8 +1521,25 @@
 
                 <button type="submit" class="btn btn-primary modal-submit" id="cfSubmitBtn">Send Message</button>
                 <div class="modal-status" id="cfStatus"></div>
-                <p class="modal-fallback">Prefer email? Reach me directly at <a
-                        href="mailto:bitekoilabs@gmail.com">bitekoilabs@gmail.com</a></p>
+                <p class="modal-fallback">Prefer email? Reach me directly at 
+                    <span class="email-popover-wrapper">
+                        <a href="mailto:bitekoilabs@gmail.com" id="emailLink">bitekoilabs@gmail.com</a>
+                        <span class="email-popover" id="emailPopover">
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bitekoilabs@gmail.com" target="_blank" rel="noopener noreferrer">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                                Open in Gmail
+                            </a>
+                            <a href="mailto:bitekoilabs@gmail.com">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                                Default Mail App
+                            </a>
+                            <button type="button" onclick="copyEmailToClipboard(event, 'bitekoilabs@gmail.com')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                                Copy Email Address
+                            </button>
+                        </span>
+                    </span>
+                </p>
             </form>
         </div>
     </div>
@@ -1565,6 +1665,50 @@
             }
         });
         document.head.appendChild(styleTag);
+
+        // ---------- email popover ----------
+        const emailLink = document.getElementById('emailLink');
+        const emailPopover = document.getElementById('emailPopover');
+
+        function toggleEmailPopover(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            emailPopover.classList.toggle('open');
+        }
+
+        function closeEmailPopover() {
+            if (emailPopover) emailPopover.classList.remove('open');
+        }
+
+        if (emailLink && emailPopover) {
+            emailLink.addEventListener('click', toggleEmailPopover);
+            
+            // Close when clicking outside
+            document.addEventListener('click', (e) => {
+                if (!emailPopover.contains(e.target) && e.target !== emailLink) {
+                    closeEmailPopover();
+                }
+            });
+        }
+
+        function copyEmailToClipboard(e, email) {
+            e.preventDefault();
+            e.stopPropagation();
+            navigator.clipboard.writeText(email).then(() => {
+                const btn = e.currentTarget;
+                const origHtml = btn.innerHTML;
+                btn.innerHTML = `
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--live)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span style="color: var(--live);">Copied!</span>
+                `;
+                setTimeout(() => {
+                    btn.innerHTML = origHtml;
+                    closeEmailPopover();
+                }, 1200);
+            }).catch(err => {
+                console.error('Could not copy email: ', err);
+            });
+        }
 
         // mobile burger -> simple scroll to labs (placeholder toggle)
         document.querySelector('.burger').addEventListener('click', () => {
