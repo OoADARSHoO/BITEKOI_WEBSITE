@@ -13,6 +13,13 @@
         href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <style>
+        /* Lenis Smooth Scroll CSS */
+        html.lenis, html.lenis body { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto !important; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-smooth iframe { pointer-events: none; }
+
         :root {
             --bg: #06060a;
             --bg-soft: #0b0b12;
@@ -1567,6 +1574,7 @@
         <div class="footer-bottom">&copy; 2025 Bitekoi Labs. All rights reserved.</div>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1/dist/lenis.min.js"></script>
     <script>
         // active nav link on scroll
         const sections = document.querySelectorAll('main section, footer');
@@ -1710,9 +1718,54 @@
             });
         }
 
+        // ---------- Lenis Smooth Scroll Initialization ----------
+        (function() {
+            // Check if user prefers reduced motion or if Lenis is not loaded
+            const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            if (prefersReducedMotion || typeof Lenis === 'undefined') {
+                return;
+            }
+
+            // Initialize Lenis
+            const lenis = new Lenis({
+                lerp: 0.1,
+                duration: 1.2,
+                smoothWheel: true,
+                wheelMultiplier: 1,
+                touchMultiplier: 2,
+            });
+
+            // Store instance globally for custom scripts
+            window.lenis = lenis;
+
+            function raf(time) {
+                lenis.raf(time);
+                requestAnimationFrame(raf);
+            }
+            requestAnimationFrame(raf);
+
+            // Route all anchor clicks through Lenis
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href');
+                    if (href === '#') return;
+
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        lenis.scrollTo(target, { offset: -90 });
+                    }
+                });
+            });
+        })();
+
         // mobile burger -> simple scroll to labs (placeholder toggle)
         document.querySelector('.burger').addEventListener('click', () => {
-            document.querySelector('#labs').scrollIntoView({ behavior: 'smooth' });
+            if (window.lenis) {
+                window.lenis.scrollTo('#labs', { offset: -90 });
+            } else {
+                document.querySelector('#labs').scrollIntoView({ behavior: 'smooth' });
+            }
         });
     </script>
 
