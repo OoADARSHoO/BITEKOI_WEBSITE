@@ -5,6 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bitekoi Labs — Building tools for a better path forward</title>
+    <link rel="icon" type="image/png" href="assets/images/favicon/Bitekoi%20Favicon.png">
     <meta name="description"
         content="Bitekoi Labs is an independent laboratory building self-improvement software. Started as one person's personal toolkit, now shared with everyone on the path.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,11 +15,26 @@
         rel="stylesheet">
     <style>
         /* Lenis Smooth Scroll CSS */
-        html.lenis, html.lenis body { height: auto; }
-        .lenis.lenis-smooth { scroll-behavior: auto !important; }
-        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
-        .lenis.lenis-stopped { overflow: hidden; }
-        .lenis.lenis-smooth iframe { pointer-events: none; }
+        html.lenis,
+        html.lenis body {
+            height: auto;
+        }
+
+        .lenis.lenis-smooth {
+            scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+            overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+            overflow: hidden;
+        }
+
+        .lenis.lenis-smooth iframe {
+            pointer-events: none;
+        }
 
         :root {
             --bg: #06060a;
@@ -1097,7 +1113,7 @@
             border-style: solid;
             border-color: rgba(11, 11, 18, 0.98) transparent transparent transparent;
         }
-        
+
         .email-popover::before {
             content: "";
             position: absolute;
@@ -1528,20 +1544,37 @@
 
                 <button type="submit" class="btn btn-primary modal-submit" id="cfSubmitBtn">Send Message</button>
                 <div class="modal-status" id="cfStatus"></div>
-                <p class="modal-fallback">Prefer email? Reach me directly at 
+                <p class="modal-fallback">Prefer email? Reach me directly at
                     <span class="email-popover-wrapper">
                         <a href="mailto:bitekoilabs@gmail.com" id="emailLink">bitekoilabs@gmail.com</a>
                         <span class="email-popover" id="emailPopover">
-                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bitekoilabs@gmail.com" target="_blank" rel="noopener noreferrer">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bitekoilabs@gmail.com"
+                                target="_blank" rel="noopener noreferrer">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path
+                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                    </path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
                                 Open in Gmail
                             </a>
                             <a href="mailto:bitekoilabs@gmail.com">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                                    <line x1="8" y1="21" x2="16" y2="21"></line>
+                                    <line x1="12" y1="17" x2="12" y2="21"></line>
+                                </svg>
                                 Default Mail App
                             </a>
-                            <button type="button" onclick="copyEmailToClipboard(event, 'bitekoilabs@gmail.com')">
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            <button type="button"
+                                onclick="copyEmailToClipboard(event, 'bitekoilabs@gmail.com', 'emailPopover')">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                </svg>
                                 Copy Email Address
                             </button>
                         </span>
@@ -1556,18 +1589,61 @@
             <a href="#home" class="footer-brand"><span class="grad">Bitekoi</span></a>
             <div class="footer-mid">Building a better future, one tool at a time.</div>
             <div class="footer-social">
-                <a href="#" aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <a href="https://github.com/OoADARSHoO" target="_blank" rel="noopener noreferrer"
+                    aria-label="GitHub"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
                         <path
                             d="M12 2C6.48 2 2 6.58 2 12.25c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.49 0-.24-.01-.87-.01-1.71-2.78.62-3.37-1.37-3.37-1.37-.45-1.18-1.11-1.49-1.11-1.49-.9-.63.07-.62.07-.62 1 .07 1.53 1.05 1.53 1.05.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.07 0-1.12.39-2.04 1.03-2.76-.1-.26-.45-1.32.1-2.75 0 0 .84-.28 2.75 1.05a9.29 9.29 0 015 0c1.91-1.33 2.75-1.05 2.75-1.05.55 1.43.2 2.49.1 2.75.64.72 1.03 1.64 1.03 2.76 0 3.94-2.35 4.8-4.58 5.06.36.32.68.94.68 1.9 0 1.37-.01 2.47-.01 2.81 0 .27.18.6.69.49A10.26 10.26 0 0022 12.25C22 6.58 17.52 2 12 2z" />
                     </svg></a>
-                <a href="#" aria-label="Twitter"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
-                        <path
-                            d="M22 5.9c-.75.33-1.55.55-2.39.65a4.17 4.17 0 001.83-2.3 8.3 8.3 0 01-2.64 1.01A4.15 4.15 0 0012.4 9.4c0 .32.04.64.1.94A11.78 11.78 0 013.2 5.1a4.15 4.15 0 001.29 5.54 4.13 4.13 0 01-1.88-.52v.05a4.16 4.16 0 003.34 4.08c-.34.09-.7.14-1.07.14-.26 0-.51-.02-.76-.07a4.17 4.17 0 003.89 2.89A8.34 8.34 0 012 19.54 11.75 11.75 0 008.29 21.4c7.55 0 11.68-6.26 11.68-11.69l-.01-.53A8.18 8.18 0 0022 5.9z" />
+                <span class="email-popover-wrapper">
+                    <a href="mailto:bitekoilabs@gmail.com" id="footerEmailLink" aria-label="Email"><svg width="16"
+                            height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22 6l-10 7L2 6" />
+                            <path d="M2 6h20v12H2z" />
+                        </svg></a>
+                    <span class="email-popover" id="footerEmailPopover">
+                        <a href="https://mail.google.com/mail/?view=cm&fs=1&to=bitekoilabs@gmail.com" target="_blank"
+                            rel="noopener noreferrer">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 6l-10 7L2 6" />
+                                <path d="M2 6h20v12H2z" />
+                            </svg>
+                            Open in Gmail
+                        </a>
+                        <a href="mailto:bitekoilabs@gmail.com">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <path d="M22 6l-10 7L2 6" />
+                                <path d="M2 6h20v12H2z" />
+                            </svg>
+                            Default Mail App
+                        </a>
+                        <button type="button"
+                            onclick="copyEmailToClipboard(event, 'bitekoilabs@gmail.com', 'footerEmailPopover')">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2">
+                                <rect x="9" y="9" width="13" height="13" rx="2" />
+                                <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" />
+                            </svg>
+                            Copy Email Address
+                        </button>
+                    </span>
+                </span>
+                <a href="https://ko-fi.com/bitekoi" target="_blank" rel="noopener noreferrer" aria-label="Ko-fi"><svg
+                        width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 6h14v7a5 5 0 01-5 5H8a5 5 0 01-5-5V6z" />
+                        <path d="M17 8h1.5a2.5 2.5 0 010 5H17" />
+                        <path d="M6 3v2" />
+                        <path d="M9 3v2" />
+                        <path d="M12 3v2" />
                     </svg></a>
-                <a href="mailto:hello@bitekoi.com" aria-label="Email"><svg width="16" height="16" viewBox="0 0 24 24"
-                        fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M22 6l-10 7L2 6" />
-                        <path d="M2 6h20v12H2z" />
+                <a href="https://www.instagram.com/bitekoi.labs/" target="_blank" rel="noopener noreferrer"
+                    aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="2" y="2" width="20" height="20" rx="5" />
+                        <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" />
+                        <path d="M17.5 6.5h.01" />
                     </svg></a>
             </div>
         </div>
@@ -1675,31 +1751,42 @@
         document.head.appendChild(styleTag);
 
         // ---------- email popover ----------
-        const emailLink = document.getElementById('emailLink');
-        const emailPopover = document.getElementById('emailPopover');
+        // Supports multiple independent link/popover pairs (modal + footer)
+        const emailPopoverPairs = [
+            { link: document.getElementById('emailLink'), popover: document.getElementById('emailPopover') },
+            { link: document.getElementById('footerEmailLink'), popover: document.getElementById('footerEmailPopover') }
+        ].filter(pair => pair.link && pair.popover);
 
-        function toggleEmailPopover(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            emailPopover.classList.toggle('open');
-        }
-
-        function closeEmailPopover() {
-            if (emailPopover) emailPopover.classList.remove('open');
-        }
-
-        if (emailLink && emailPopover) {
-            emailLink.addEventListener('click', toggleEmailPopover);
-            
-            // Close when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!emailPopover.contains(e.target) && e.target !== emailLink) {
-                    closeEmailPopover();
-                }
+        function closeAllEmailPopovers(except) {
+            emailPopoverPairs.forEach(({ popover }) => {
+                if (popover !== except) popover.classList.remove('open');
             });
         }
 
-        function copyEmailToClipboard(e, email) {
+        function closeEmailPopoverById(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.remove('open');
+        }
+
+        emailPopoverPairs.forEach(({ link, popover }) => {
+            link.addEventListener('click', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                const willOpen = !popover.classList.contains('open');
+                closeAllEmailPopovers();
+                if (willOpen) popover.classList.add('open');
+            });
+        });
+
+        // Close when clicking outside any popover/link
+        document.addEventListener('click', (e) => {
+            const clickedInsideAny = emailPopoverPairs.some(({ link, popover }) =>
+                popover.contains(e.target) || e.target === link || link.contains(e.target)
+            );
+            if (!clickedInsideAny) closeAllEmailPopovers();
+        });
+
+        function copyEmailToClipboard(e, email, popoverId) {
             e.preventDefault();
             e.stopPropagation();
             navigator.clipboard.writeText(email).then(() => {
@@ -1711,7 +1798,11 @@
                 `;
                 setTimeout(() => {
                     btn.innerHTML = origHtml;
-                    closeEmailPopover();
+                    if (popoverId) {
+                        closeEmailPopoverById(popoverId);
+                    } else {
+                        closeAllEmailPopovers();
+                    }
                 }, 1200);
             }).catch(err => {
                 console.error('Could not copy email: ', err);
@@ -1719,7 +1810,7 @@
         }
 
         // ---------- Lenis Smooth Scroll Initialization ----------
-        (function() {
+        (function () {
             // Check if user prefers reduced motion or if Lenis is not loaded
             const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
             if (prefersReducedMotion || typeof Lenis === 'undefined') {
@@ -1746,7 +1837,7 @@
 
             // Route all anchor clicks through Lenis
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-                anchor.addEventListener('click', function(e) {
+                anchor.addEventListener('click', function (e) {
                     const href = this.getAttribute('href');
                     if (href === '#') return;
 
