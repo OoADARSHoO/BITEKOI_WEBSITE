@@ -371,6 +371,399 @@ button {
   }
 }
 
+/* ==========================================================================
+   REUSABLE SCROLL REVEAL UTILITIES
+   ========================================================================== */
+.reveal {
+  opacity: 0;
+  transition-property: opacity, transform;
+  transition-duration: 0.85s;
+  transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.reveal-up {
+  transform: translateY(32px);
+}
+
+.reveal-right {
+  transform: translateX(45px);
+}
+
+.reveal-left {
+  transform: translateX(-45px);
+}
+
+.reveal.is-revealed {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+
+/* ==========================================================================
+   LEGEND SECTION
+   ========================================================================== */
+.legend-section {
+  position: relative;
+  background-color: var(--bg);
+  /* Soft ambient radial glow to simulate atmospheric cloud/fog */
+  background-image: radial-gradient(
+    circle at 70% 48%, 
+    rgba(91, 140, 255, 0.038) 0%, 
+    rgba(169, 177, 232, 0.018) 32%, 
+    transparent 65%
+  );
+  padding: clamp(5rem, 8vw, 8rem) 0 clamp(4rem, 6vw, 6rem);
+  overflow: hidden;
+}
+
+.legend-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  display: grid;
+  grid-template-columns: 0.85fr 1.35fr;
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+/* Left Column */
+.legend-text-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.legend-eyebrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.15rem;
+}
+
+.legend-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.legend-eyebrow-line {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background-color: var(--border);
+  opacity: 0.8;
+}
+
+.legend-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.35rem, 1.8rem + 2.2vw, 3.8rem);
+  font-weight: 500;
+  line-height: 1.12;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-bottom: 1.35rem;
+}
+
+.legend-description {
+  font-family: var(--font-sans);
+  font-size: var(--fs-body);
+  font-weight: 400;
+  color: var(--text-muted);
+  line-height: 1.75;
+  max-width: 460px;
+}
+
+/* Right Column (Mosaic Quote Card) */
+.legend-card-col {
+  width: 100%;
+}
+
+.legend-card {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 
+    0 24px 50px -12px rgba(0, 0, 0, 0.75),
+    0 0 45px rgba(91, 140, 255, 0.06);
+  transition: 
+    transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+    border-color 0.45s ease;
+}
+
+.legend-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.14);
+  box-shadow: 
+    0 30px 60px -10px rgba(0, 0, 0, 0.85),
+    0 0 55px rgba(91, 140, 255, 0.14);
+}
+
+.legend-quote-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: inherit;
+}
+
+/* Section Bottom Divider with Centered Diamond */
+.section-divider-diamond {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 1200px;
+  margin: clamp(4rem, 7vw, 6.5rem) auto 0;
+  padding: 0 var(--container-padding);
+  gap: 1.25rem;
+}
+
+.diamond-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(
+    90deg, 
+    transparent, 
+    rgba(42, 42, 51, 0.8) 15%, 
+    rgba(42, 42, 51, 0.8) 85%, 
+    transparent
+  );
+}
+
+.diamond-shape {
+  width: 7px;
+  height: 7px;
+  background-color: var(--bg);
+  border: 1px solid var(--border);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(91, 140, 255, 0.25);
+}
+
+/* ==========================================================================
+   FEATURES SECTION & TILT TIMER
+   ========================================================================== */
+.features-section {
+  position: relative;
+  background-color: var(--bg);
+  padding: clamp(5rem, 8vw, 8rem) 0;
+  overflow: hidden;
+}
+
+/* Ambient Blue Glow positioned behind the timer */
+.features-ambient-glow {
+  position: absolute;
+  right: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 580px;
+  height: 580px;
+  background: radial-gradient(
+    circle, 
+    rgba(91, 140, 255, 0.08) 0%, 
+    rgba(91, 140, 255, 0.025) 45%, 
+    transparent 70%
+  );
+  filter: blur(50px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.features-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--container-padding);
+  display: grid;
+  grid-template-columns: 1.15fr 0.95fr;
+  align-items: center;
+  gap: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+/* Left Column */
+.features-content-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.features-eyebrow-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  margin-bottom: 1.15rem;
+}
+
+.features-eyebrow {
+  font-family: var(--font-sans);
+  font-size: var(--fs-eyebrow);
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+.features-eyebrow-line {
+  display: inline-block;
+  width: 36px;
+  height: 1px;
+  background-color: var(--border);
+  opacity: 0.8;
+}
+
+.features-title {
+  font-family: var(--font-serif);
+  font-size: clamp(2.35rem, 1.8rem + 2.2vw, 3.8rem);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--text);
+  margin-bottom: 2rem;
+}
+
+/* Feature Items Grid (Row of 4 on Desktop) */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+}
+
+.feature-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.feature-tile {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: var(--surface-translucent);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--border-light);
+  box-shadow: 
+    0 6px 20px rgba(0, 0, 0, 0.4), 
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition: 
+    transform var(--transition-smooth), 
+    border-color var(--transition-smooth), 
+    box-shadow var(--transition-smooth);
+}
+
+.feature-icon {
+  color: rgba(245, 245, 245, 0.85);
+  transition: color var(--transition-smooth);
+}
+
+.feature-item:hover .feature-tile {
+  transform: translateY(-4px);
+  border-color: rgba(91, 140, 255, 0.55);
+  box-shadow: 
+    0 0 22px rgba(91, 140, 255, 0.3), 
+    0 10px 24px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.feature-item:hover .feature-icon {
+  color: #FFFFFF;
+}
+
+.feature-item-title {
+  font-family: var(--font-sans);
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 0.45rem;
+}
+
+.feature-item-desc {
+  font-family: var(--font-sans);
+  font-size: 0.815rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 170px;
+}
+
+/* Right Column: Tilting Timer Wrapper */
+.features-timer-col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.tilt-wrap {
+  perspective: 1000px;
+  width: 100%;
+  max-width: 520px;
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+.tilt-wrap:hover {
+  animation-play-state: paused;
+}
+
+.tilt-card {
+  position: relative;
+  width: 100%;
+  border-radius: 18px;
+  transform-style: preserve-3d;
+  will-change: transform, filter;
+  /* Base drop-shadow and ambient glow that shifts dynamically with tilt */
+  filter: 
+    drop-shadow(0 20px 32px rgba(0, 0, 0, 0.75)) 
+    drop-shadow(0 0 22px rgba(91, 140, 255, 0.16));
+}
+
+.timer-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* Dynamic Glare Overlay clipped to image shape */
+.tilt-glare {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  mix-blend-mode: overlay;
+  mask-image: url('../assets/image-3.png');
+  mask-size: contain;
+  mask-position: center;
+  mask-repeat: no-repeat;
+  -webkit-mask-image: url('../assets/image-3.png');
+  -webkit-mask-size: contain;
+  -webkit-mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  border-radius: inherit;
+  transition: opacity 0.25s ease;
+}
+
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
 /* =========================================================
    PLACEHOLDER SECTIONS
    ========================================================= */
@@ -516,6 +909,87 @@ button {
 /* =========================================================
    RESPONSIVE LAYOUT
    ========================================================= */
+@media (max-width: 900px) {
+  .legend-section {
+    padding: clamp(3.5rem, 6vw, 5rem) 0;
+  }
+
+  .legend-container {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .legend-description {
+    max-width: 100%;
+  }
+
+  .legend-card-col {
+    max-width: 100%;
+  }
+
+  .section-divider-diamond {
+    margin-top: 3.5rem;
+  }
+
+  /* Features Section 900px Responsive */
+  .features-section {
+    padding: clamp(3.5rem, 6vw, 5rem) 0;
+  }
+
+  .features-ambient-glow {
+    right: 50%;
+    top: 75%;
+    transform: translate(50%, -50%);
+    width: 420px;
+    height: 420px;
+  }
+
+  .features-container {
+    grid-template-columns: 1fr;
+    gap: 3.5rem;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem 1.5rem;
+  }
+
+  .features-timer-col {
+    order: 2;
+  }
+
+  .feature-item-desc {
+    max-width: 220px;
+  }
+}
+
+@media (max-width: 480px) {
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem 0.85rem;
+  }
+
+  .feature-tile {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    margin-bottom: 0.75rem;
+  }
+
+  .feature-icon {
+    width: 24px;
+    height: 24px;
+  }
+
+  .feature-item-title {
+    font-size: 0.875rem;
+  }
+
+  .feature-item-desc {
+    font-size: 0.75rem;
+  }
+}
+
 @media (max-width: 768px) {
   .hero-section {
     min-height: 100vh;
@@ -582,6 +1056,34 @@ button {
 
   .animate-item {
     opacity: 1 !important;
+    transform: none !important;
+  }
+
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .legend-card:hover {
+    transform: none !important;
+  }
+
+  .tilt-wrap {
+    animation: none !important;
+  }
+
+  .tilt-card {
+    transform: none !important;
+    will-change: auto !important;
+    filter: drop-shadow(0 20px 32px rgba(0, 0, 0, 0.75)) drop-shadow(0 0 20px rgba(91, 140, 255, 0.15)) !important;
+  }
+
+  .tilt-glare {
+    display: none !important;
+  }
+
+  .feature-item:hover .feature-tile {
     transform: none !important;
   }
 
