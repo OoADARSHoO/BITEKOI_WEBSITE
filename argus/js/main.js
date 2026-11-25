@@ -54,7 +54,7 @@ function initDownloadButtons() {
         const assets = Array.isArray(data.assets) ? data.assets : [];
 
         // Filter for Windows executables (.exe)
-        const exeAssets = assets.filter(asset => 
+        const exeAssets = assets.filter(asset =>
           typeof asset.name === 'string' && asset.name.toLowerCase().endsWith('.exe')
         );
 
